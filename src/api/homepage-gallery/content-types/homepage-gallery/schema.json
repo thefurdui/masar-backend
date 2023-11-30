@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepage_galleries",
+  "info": {
+    "singularName": "homepage-gallery",
+    "pluralName": "homepage-galleries",
+    "displayName": "Homepage Gallery",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "accessories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::accessory.accessory"
+    }
+  }
+}

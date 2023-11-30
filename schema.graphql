@@ -3,12 +3,13 @@
 
 
 type Accessory {
+  cover: UploadFileEntityResponse!
   createdAt: DateTime
   description: String
-  images(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
   locale: String
   localizations(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
   name: String!
+  photos(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
   publishedAt: DateTime
   updatedAt: DateTime
 }
@@ -42,9 +43,10 @@ input AccessoryFiltersInput {
 }
 
 input AccessoryInput {
+  cover: ID
   description: String
-  images: [ID]
   name: String
+  photos: [ID]
   publishedAt: DateTime
 }
 
@@ -173,7 +175,47 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = Accessory | I18NLocale | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = Accessory | HomepageGallery | I18NLocale | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+
+type HomepageGallery {
+  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
+  createdAt: DateTime
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type HomepageGalleryEntity {
+  attributes: HomepageGallery
+  id: ID
+}
+
+type HomepageGalleryEntityResponse {
+  data: HomepageGalleryEntity
+}
+
+type HomepageGalleryEntityResponseCollection {
+  data: [HomepageGalleryEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input HomepageGalleryFiltersInput {
+  accessories: AccessoryFiltersInput
+  and: [HomepageGalleryFiltersInput]
+  createdAt: DateTimeFilterInput
+  not: HomepageGalleryFiltersInput
+  or: [HomepageGalleryFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input HomepageGalleryInput {
+  accessories: [ID]
+  publishedAt: DateTime
+}
+
+type HomepageGalleryRelationResponseCollection {
+  data: [HomepageGalleryEntity!]!
+}
 
 type I18NLocale {
   code: String
@@ -343,6 +385,7 @@ type Mutation {
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
   deleteAccessory(id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
+  deleteHomepageGallery: HomepageGalleryEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
 
@@ -370,6 +413,7 @@ type Mutation {
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   updateAccessory(data: AccessoryInput!, id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateHomepageGallery(data: HomepageGalleryInput!): HomepageGalleryEntityResponse
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
 
@@ -403,6 +447,7 @@ enum PublicationState {
 type Query {
   accessories(filters: AccessoryFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryEntityResponseCollection
   accessory(id: ID, locale: I18NLocaleCode): AccessoryEntityResponse
+  homepageGallery(publicationState: PublicationState = LIVE): HomepageGalleryEntityResponse
   i18NLocale(id: ID): I18NLocaleEntityResponse
   i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
   me: UsersPermissionsMe
