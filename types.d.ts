@@ -106,6 +106,19 @@ export interface NexusGenInputs {
     or?: Array<NexusGenScalars['DateTime'] | null> | null; // [DateTime]
     startsWith?: NexusGenScalars['DateTime'] | null; // DateTime
   }
+  FeaturedFiltersInput: { // input type
+    accessories?: NexusGenInputs['AccessoryFiltersInput'] | null; // AccessoryFiltersInput
+    and?: Array<NexusGenInputs['FeaturedFiltersInput'] | null> | null; // [FeaturedFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    not?: NexusGenInputs['FeaturedFiltersInput'] | null; // FeaturedFiltersInput
+    or?: Array<NexusGenInputs['FeaturedFiltersInput'] | null> | null; // [FeaturedFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  FeaturedInput: { // input type
+    accessories?: Array<string | null> | null; // [ID]
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
   FileInfoInput: { // input type
     alternativeText?: string | null; // String
     caption?: string | null; // String
@@ -134,19 +147,6 @@ export interface NexusGenInputs {
     null?: boolean | null; // Boolean
     or?: Array<number | null> | null; // [Float]
     startsWith?: number | null; // Float
-  }
-  HomepageGalleryFiltersInput: { // input type
-    accessories?: NexusGenInputs['AccessoryFiltersInput'] | null; // AccessoryFiltersInput
-    and?: Array<NexusGenInputs['HomepageGalleryFiltersInput'] | null> | null; // [HomepageGalleryFiltersInput]
-    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
-    not?: NexusGenInputs['HomepageGalleryFiltersInput'] | null; // HomepageGalleryFiltersInput
-    or?: Array<NexusGenInputs['HomepageGalleryFiltersInput'] | null> | null; // [HomepageGalleryFiltersInput]
-    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
-    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
-  }
-  HomepageGalleryInput: { // input type
-    accessories?: Array<string | null> | null; // [ID]
-    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   I18NLocaleFiltersInput: { // input type
     and?: Array<NexusGenInputs['I18NLocaleFiltersInput'] | null> | null; // [I18NLocaleFiltersInput]
@@ -258,11 +258,42 @@ export interface NexusGenInputs {
     or?: Array<NexusGenScalars['Long'] | null> | null; // [Long]
     startsWith?: NexusGenScalars['Long'] | null; // Long
   }
+  MenuFiltersInput: { // input type
+    and?: Array<NexusGenInputs['MenuFiltersInput'] | null> | null; // [MenuFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    not?: NexusGenInputs['MenuFiltersInput'] | null; // MenuFiltersInput
+    or?: Array<NexusGenInputs['MenuFiltersInput'] | null> | null; // [MenuFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    routes?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+  }
+  MenuInput: { // input type
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    routes?: Array<string | null> | null; // [ID]
+  }
   PaginationArg: { // input type
     limit?: number | null; // Int
     page?: number | null; // Int
     pageSize?: number | null; // Int
     start?: number | null; // Int
+  }
+  RouteFiltersInput: { // input type
+    and?: Array<NexusGenInputs['RouteFiltersInput'] | null> | null; // [RouteFiltersInput]
+    createdAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    id?: NexusGenInputs['IDFilterInput'] | null; // IDFilterInput
+    locale?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    localizations?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
+    name?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    not?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
+    or?: Array<NexusGenInputs['RouteFiltersInput'] | null> | null; // [RouteFiltersInput]
+    publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
+    url?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+  }
+  RouteInput: { // input type
+    name?: string | null; // String
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url?: string | null; // String
   }
   StringFilterInput: { // input type
     and?: Array<string | null> | null; // [String]
@@ -485,15 +516,15 @@ export interface NexusGenObjects {
   Error: { // root type
     message?: string | null; // String
   }
-  HomepageGallery: { // root type
+  Featured: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  HomepageGalleryEntity: {};
-  HomepageGalleryEntityResponse: {};
-  HomepageGalleryEntityResponseCollection: {};
-  HomepageGalleryRelationResponseCollection: {};
+  FeaturedEntity: {};
+  FeaturedEntityResponse: {};
+  FeaturedEntityResponseCollection: {};
+  FeaturedRelationResponseCollection: {};
   I18NLocale: { // root type
     code?: string | null; // String
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -504,6 +535,15 @@ export interface NexusGenObjects {
   I18NLocaleEntityResponse: {};
   I18NLocaleEntityResponseCollection: {};
   I18NLocaleRelationResponseCollection: {};
+  Menu: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  MenuEntity: {};
+  MenuEntityResponse: {};
+  MenuEntityResponseCollection: {};
+  MenuRelationResponseCollection: {};
   Mutation: {};
   Pagination: { // root type
     page: number; // Int!
@@ -513,6 +553,18 @@ export interface NexusGenObjects {
   }
   Query: {};
   ResponseCollectionMeta: {};
+  Route: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    locale?: string | null; // String
+    name: string; // String!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+  }
+  RouteEntity: {};
+  RouteEntityResponse: {};
+  RouteEntityResponseCollection: {};
+  RouteRelationResponseCollection: {};
   UploadFile: { // root type
     alternativeText?: string | null; // String
     caption?: string | null; // String
@@ -615,7 +667,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  GenericMorph: NexusGenRootTypes['Accessory'] | NexusGenRootTypes['HomepageGallery'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
+  GenericMorph: NexusGenRootTypes['Accessory'] | NexusGenRootTypes['Featured'] | NexusGenRootTypes['I18NLocale'] | NexusGenRootTypes['Menu'] | NexusGenRootTypes['Route'] | NexusGenRootTypes['UploadFile'] | NexusGenRootTypes['UploadFolder'] | NexusGenRootTypes['UsersPermissionsPermission'] | NexusGenRootTypes['UsersPermissionsRole'] | NexusGenRootTypes['UsersPermissionsUser'];
 }
 
 export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
@@ -652,25 +704,25 @@ export interface NexusGenFieldTypes {
     code: string; // String!
     message: string | null; // String
   }
-  HomepageGallery: { // field return type
+  Featured: { // field return type
     accessories: NexusGenRootTypes['AccessoryRelationResponseCollection'] | null; // AccessoryRelationResponseCollection
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  HomepageGalleryEntity: { // field return type
-    attributes: NexusGenRootTypes['HomepageGallery'] | null; // HomepageGallery
+  FeaturedEntity: { // field return type
+    attributes: NexusGenRootTypes['Featured'] | null; // Featured
     id: string | null; // ID
   }
-  HomepageGalleryEntityResponse: { // field return type
-    data: NexusGenRootTypes['HomepageGalleryEntity'] | null; // HomepageGalleryEntity
+  FeaturedEntityResponse: { // field return type
+    data: NexusGenRootTypes['FeaturedEntity'] | null; // FeaturedEntity
   }
-  HomepageGalleryEntityResponseCollection: { // field return type
-    data: NexusGenRootTypes['HomepageGalleryEntity'][]; // [HomepageGalleryEntity!]!
+  FeaturedEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['FeaturedEntity'][]; // [FeaturedEntity!]!
     meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
   }
-  HomepageGalleryRelationResponseCollection: { // field return type
-    data: NexusGenRootTypes['HomepageGalleryEntity'][]; // [HomepageGalleryEntity!]!
+  FeaturedRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['FeaturedEntity'][]; // [FeaturedEntity!]!
   }
   I18NLocale: { // field return type
     code: string | null; // String
@@ -692,16 +744,40 @@ export interface NexusGenFieldTypes {
   I18NLocaleRelationResponseCollection: { // field return type
     data: NexusGenRootTypes['I18NLocaleEntity'][]; // [I18NLocaleEntity!]!
   }
+  Menu: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    routes: NexusGenRootTypes['RouteRelationResponseCollection'] | null; // RouteRelationResponseCollection
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  MenuEntity: { // field return type
+    attributes: NexusGenRootTypes['Menu'] | null; // Menu
+    id: string | null; // ID
+  }
+  MenuEntityResponse: { // field return type
+    data: NexusGenRootTypes['MenuEntity'] | null; // MenuEntity
+  }
+  MenuEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['MenuEntity'][]; // [MenuEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  MenuRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['MenuEntity'][]; // [MenuEntity!]!
+  }
   Mutation: { // field return type
     changePassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
     createAccessory: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
     createAccessoryLocalization: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
+    createRoute: NexusGenRootTypes['RouteEntityResponse'] | null; // RouteEntityResponse
+    createRouteLocalization: NexusGenRootTypes['RouteEntityResponse'] | null; // RouteEntityResponse
     createUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     createUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     createUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsCreateRolePayload'] | null; // UsersPermissionsCreateRolePayload
     createUsersPermissionsUser: NexusGenRootTypes['UsersPermissionsUserEntityResponse']; // UsersPermissionsUserEntityResponse!
     deleteAccessory: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
-    deleteHomepageGallery: NexusGenRootTypes['HomepageGalleryEntityResponse'] | null; // HomepageGalleryEntityResponse
+    deleteFeatured: NexusGenRootTypes['FeaturedEntityResponse'] | null; // FeaturedEntityResponse
+    deleteMenu: NexusGenRootTypes['MenuEntityResponse'] | null; // MenuEntityResponse
+    deleteRoute: NexusGenRootTypes['RouteEntityResponse'] | null; // RouteEntityResponse
     deleteUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     deleteUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     deleteUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsDeleteRolePayload'] | null; // UsersPermissionsDeleteRolePayload
@@ -714,8 +790,10 @@ export interface NexusGenFieldTypes {
     removeFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     resetPassword: NexusGenRootTypes['UsersPermissionsLoginPayload'] | null; // UsersPermissionsLoginPayload
     updateAccessory: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
+    updateFeatured: NexusGenRootTypes['FeaturedEntityResponse'] | null; // FeaturedEntityResponse
     updateFileInfo: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
-    updateHomepageGallery: NexusGenRootTypes['HomepageGalleryEntityResponse'] | null; // HomepageGalleryEntityResponse
+    updateMenu: NexusGenRootTypes['MenuEntityResponse'] | null; // MenuEntityResponse
+    updateRoute: NexusGenRootTypes['RouteEntityResponse'] | null; // RouteEntityResponse
     updateUploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     updateUploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
     updateUsersPermissionsRole: NexusGenRootTypes['UsersPermissionsUpdateRolePayload'] | null; // UsersPermissionsUpdateRolePayload
@@ -731,10 +809,13 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     accessories: NexusGenRootTypes['AccessoryEntityResponseCollection'] | null; // AccessoryEntityResponseCollection
     accessory: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
-    homepageGallery: NexusGenRootTypes['HomepageGalleryEntityResponse'] | null; // HomepageGalleryEntityResponse
+    featured: NexusGenRootTypes['FeaturedEntityResponse'] | null; // FeaturedEntityResponse
     i18NLocale: NexusGenRootTypes['I18NLocaleEntityResponse'] | null; // I18NLocaleEntityResponse
     i18NLocales: NexusGenRootTypes['I18NLocaleEntityResponseCollection'] | null; // I18NLocaleEntityResponseCollection
     me: NexusGenRootTypes['UsersPermissionsMe'] | null; // UsersPermissionsMe
+    menu: NexusGenRootTypes['MenuEntityResponse'] | null; // MenuEntityResponse
+    route: NexusGenRootTypes['RouteEntityResponse'] | null; // RouteEntityResponse
+    routes: NexusGenRootTypes['RouteEntityResponseCollection'] | null; // RouteEntityResponseCollection
     uploadFile: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     uploadFiles: NexusGenRootTypes['UploadFileEntityResponseCollection'] | null; // UploadFileEntityResponseCollection
     uploadFolder: NexusGenRootTypes['UploadFolderEntityResponse'] | null; // UploadFolderEntityResponse
@@ -746,6 +827,29 @@ export interface NexusGenFieldTypes {
   }
   ResponseCollectionMeta: { // field return type
     pagination: NexusGenRootTypes['Pagination']; // Pagination!
+  }
+  Route: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    locale: string | null; // String
+    localizations: NexusGenRootTypes['RouteRelationResponseCollection'] | null; // RouteRelationResponseCollection
+    name: string; // String!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+  }
+  RouteEntity: { // field return type
+    attributes: NexusGenRootTypes['Route'] | null; // Route
+    id: string | null; // ID
+  }
+  RouteEntityResponse: { // field return type
+    data: NexusGenRootTypes['RouteEntity'] | null; // RouteEntity
+  }
+  RouteEntityResponseCollection: { // field return type
+    data: NexusGenRootTypes['RouteEntity'][]; // [RouteEntity!]!
+    meta: NexusGenRootTypes['ResponseCollectionMeta']; // ResponseCollectionMeta!
+  }
+  RouteRelationResponseCollection: { // field return type
+    data: NexusGenRootTypes['RouteEntity'][]; // [RouteEntity!]!
   }
   UploadFile: { // field return type
     alternativeText: string | null; // String
@@ -933,25 +1037,25 @@ export interface NexusGenFieldTypeNames {
     code: 'String'
     message: 'String'
   }
-  HomepageGallery: { // field return type name
+  Featured: { // field return type name
     accessories: 'AccessoryRelationResponseCollection'
     createdAt: 'DateTime'
     publishedAt: 'DateTime'
     updatedAt: 'DateTime'
   }
-  HomepageGalleryEntity: { // field return type name
-    attributes: 'HomepageGallery'
+  FeaturedEntity: { // field return type name
+    attributes: 'Featured'
     id: 'ID'
   }
-  HomepageGalleryEntityResponse: { // field return type name
-    data: 'HomepageGalleryEntity'
+  FeaturedEntityResponse: { // field return type name
+    data: 'FeaturedEntity'
   }
-  HomepageGalleryEntityResponseCollection: { // field return type name
-    data: 'HomepageGalleryEntity'
+  FeaturedEntityResponseCollection: { // field return type name
+    data: 'FeaturedEntity'
     meta: 'ResponseCollectionMeta'
   }
-  HomepageGalleryRelationResponseCollection: { // field return type name
-    data: 'HomepageGalleryEntity'
+  FeaturedRelationResponseCollection: { // field return type name
+    data: 'FeaturedEntity'
   }
   I18NLocale: { // field return type name
     code: 'String'
@@ -973,16 +1077,40 @@ export interface NexusGenFieldTypeNames {
   I18NLocaleRelationResponseCollection: { // field return type name
     data: 'I18NLocaleEntity'
   }
+  Menu: { // field return type name
+    createdAt: 'DateTime'
+    publishedAt: 'DateTime'
+    routes: 'RouteRelationResponseCollection'
+    updatedAt: 'DateTime'
+  }
+  MenuEntity: { // field return type name
+    attributes: 'Menu'
+    id: 'ID'
+  }
+  MenuEntityResponse: { // field return type name
+    data: 'MenuEntity'
+  }
+  MenuEntityResponseCollection: { // field return type name
+    data: 'MenuEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  MenuRelationResponseCollection: { // field return type name
+    data: 'MenuEntity'
+  }
   Mutation: { // field return type name
     changePassword: 'UsersPermissionsLoginPayload'
     createAccessory: 'AccessoryEntityResponse'
     createAccessoryLocalization: 'AccessoryEntityResponse'
+    createRoute: 'RouteEntityResponse'
+    createRouteLocalization: 'RouteEntityResponse'
     createUploadFile: 'UploadFileEntityResponse'
     createUploadFolder: 'UploadFolderEntityResponse'
     createUsersPermissionsRole: 'UsersPermissionsCreateRolePayload'
     createUsersPermissionsUser: 'UsersPermissionsUserEntityResponse'
     deleteAccessory: 'AccessoryEntityResponse'
-    deleteHomepageGallery: 'HomepageGalleryEntityResponse'
+    deleteFeatured: 'FeaturedEntityResponse'
+    deleteMenu: 'MenuEntityResponse'
+    deleteRoute: 'RouteEntityResponse'
     deleteUploadFile: 'UploadFileEntityResponse'
     deleteUploadFolder: 'UploadFolderEntityResponse'
     deleteUsersPermissionsRole: 'UsersPermissionsDeleteRolePayload'
@@ -995,8 +1123,10 @@ export interface NexusGenFieldTypeNames {
     removeFile: 'UploadFileEntityResponse'
     resetPassword: 'UsersPermissionsLoginPayload'
     updateAccessory: 'AccessoryEntityResponse'
+    updateFeatured: 'FeaturedEntityResponse'
     updateFileInfo: 'UploadFileEntityResponse'
-    updateHomepageGallery: 'HomepageGalleryEntityResponse'
+    updateMenu: 'MenuEntityResponse'
+    updateRoute: 'RouteEntityResponse'
     updateUploadFile: 'UploadFileEntityResponse'
     updateUploadFolder: 'UploadFolderEntityResponse'
     updateUsersPermissionsRole: 'UsersPermissionsUpdateRolePayload'
@@ -1012,10 +1142,13 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     accessories: 'AccessoryEntityResponseCollection'
     accessory: 'AccessoryEntityResponse'
-    homepageGallery: 'HomepageGalleryEntityResponse'
+    featured: 'FeaturedEntityResponse'
     i18NLocale: 'I18NLocaleEntityResponse'
     i18NLocales: 'I18NLocaleEntityResponseCollection'
     me: 'UsersPermissionsMe'
+    menu: 'MenuEntityResponse'
+    route: 'RouteEntityResponse'
+    routes: 'RouteEntityResponseCollection'
     uploadFile: 'UploadFileEntityResponse'
     uploadFiles: 'UploadFileEntityResponseCollection'
     uploadFolder: 'UploadFolderEntityResponse'
@@ -1027,6 +1160,29 @@ export interface NexusGenFieldTypeNames {
   }
   ResponseCollectionMeta: { // field return type name
     pagination: 'Pagination'
+  }
+  Route: { // field return type name
+    createdAt: 'DateTime'
+    locale: 'String'
+    localizations: 'RouteRelationResponseCollection'
+    name: 'String'
+    publishedAt: 'DateTime'
+    updatedAt: 'DateTime'
+    url: 'String'
+  }
+  RouteEntity: { // field return type name
+    attributes: 'Route'
+    id: 'ID'
+  }
+  RouteEntityResponse: { // field return type name
+    data: 'RouteEntity'
+  }
+  RouteEntityResponseCollection: { // field return type name
+    data: 'RouteEntity'
+    meta: 'ResponseCollectionMeta'
+  }
+  RouteRelationResponseCollection: { // field return type name
+    data: 'RouteEntity'
   }
   UploadFile: { // field return type name
     alternativeText: 'String'
@@ -1198,9 +1354,17 @@ export interface NexusGenArgTypes {
       sort: Array<string | null> | null; // [String]
     }
   }
-  HomepageGallery: {
+  Featured: {
     accessories: { // args
       filters?: NexusGenInputs['AccessoryFiltersInput'] | null; // AccessoryFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
+  Menu: {
+    routes: { // args
+      filters?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
@@ -1221,6 +1385,15 @@ export interface NexusGenArgTypes {
       id?: string | null; // ID
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    createRoute: { // args
+      data: NexusGenInputs['RouteInput']; // RouteInput!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    createRouteLocalization: { // args
+      data?: NexusGenInputs['RouteInput'] | null; // RouteInput
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
     createUploadFile: { // args
       data: NexusGenInputs['UploadFileInput']; // UploadFileInput!
     }
@@ -1234,6 +1407,10 @@ export interface NexusGenArgTypes {
       data: NexusGenInputs['UsersPermissionsUserInput']; // UsersPermissionsUserInput!
     }
     deleteAccessory: { // args
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    deleteRoute: { // args
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
@@ -1280,12 +1457,20 @@ export interface NexusGenArgTypes {
       id: string; // ID!
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
+    updateFeatured: { // args
+      data: NexusGenInputs['FeaturedInput']; // FeaturedInput!
+    }
     updateFileInfo: { // args
       id: string; // ID!
       info?: NexusGenInputs['FileInfoInput'] | null; // FileInfoInput
     }
-    updateHomepageGallery: { // args
-      data: NexusGenInputs['HomepageGalleryInput']; // HomepageGalleryInput!
+    updateMenu: { // args
+      data: NexusGenInputs['MenuInput']; // MenuInput!
+    }
+    updateRoute: { // args
+      data: NexusGenInputs['RouteInput']; // RouteInput!
+      id: string; // ID!
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
     updateUploadFile: { // args
       data: NexusGenInputs['UploadFileInput']; // UploadFileInput!
@@ -1323,7 +1508,7 @@ export interface NexusGenArgTypes {
       id?: string | null; // ID
       locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
     }
-    homepageGallery: { // args
+    featured: { // args
       publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
     }
     i18NLocale: { // args
@@ -1332,6 +1517,20 @@ export interface NexusGenArgTypes {
     i18NLocales: { // args
       filters?: NexusGenInputs['I18NLocaleFiltersInput'] | null; // I18NLocaleFiltersInput
       pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      sort: Array<string | null> | null; // [String]
+    }
+    menu: { // args
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+    }
+    route: { // args
+      id?: string | null; // ID
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+    }
+    routes: { // args
+      filters?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
+      locale?: NexusGenScalars['I18NLocaleCode'] | null; // I18NLocaleCode
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
       sort: Array<string | null> | null; // [String]
     }
     uploadFile: { // args
@@ -1367,6 +1566,14 @@ export interface NexusGenArgTypes {
       sort: Array<string | null> | null; // [String]
     }
   }
+  Route: {
+    localizations: { // args
+      filters?: NexusGenInputs['RouteFiltersInput'] | null; // RouteFiltersInput
+      pagination: NexusGenInputs['PaginationArg'] | null; // PaginationArg
+      publicationState: NexusGenEnums['PublicationState'] | null; // PublicationState
+      sort: Array<string | null> | null; // [String]
+    }
+  }
   UploadFolder: {
     children: { // args
       filters?: NexusGenInputs['UploadFolderFiltersInput'] | null; // UploadFolderFiltersInput
@@ -1394,7 +1601,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  GenericMorph: "Accessory" | "HomepageGallery" | "I18NLocale" | "UploadFile" | "UploadFolder" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
+  GenericMorph: "Accessory" | "Featured" | "I18NLocale" | "Menu" | "Route" | "UploadFile" | "UploadFolder" | "UsersPermissionsPermission" | "UsersPermissionsRole" | "UsersPermissionsUser"
 }
 
 export interface NexusGenTypeInterfaces {

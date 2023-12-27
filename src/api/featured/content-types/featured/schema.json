@@ -1,11 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "homepage_galleries",
+  "collectionName": "featureds",
   "info": {
-    "singularName": "homepage-gallery",
-    "pluralName": "homepage-galleries",
-    "displayName": "Homepage Gallery",
-    "description": ""
+    "singularName": "featured",
+    "pluralName": "featureds",
+    "displayName": "Featured"
   },
   "options": {
     "draftAndPublish": true

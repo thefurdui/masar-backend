@@ -744,20 +744,19 @@ export interface ApiAccessoryAccessory extends Schema.CollectionType {
   };
 }
 
-export interface ApiHomepageGalleryHomepageGallery extends Schema.SingleType {
-  collectionName: 'homepage_galleries';
+export interface ApiFeaturedFeatured extends Schema.SingleType {
+  collectionName: 'featureds';
   info: {
-    singularName: 'homepage-gallery';
-    pluralName: 'homepage-galleries';
-    displayName: 'Homepage Gallery';
-    description: '';
+    singularName: 'featured';
+    pluralName: 'featureds';
+    displayName: 'Featured';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     accessories: Attribute.Relation<
-      'api::homepage-gallery.homepage-gallery',
+      'api::featured.featured',
       'oneToMany',
       'api::accessory.accessory'
     >;
@@ -765,17 +764,99 @@ export interface ApiHomepageGalleryHomepageGallery extends Schema.SingleType {
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::homepage-gallery.homepage-gallery',
+      'api::featured.featured',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::homepage-gallery.homepage-gallery',
+      'api::featured.featured',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
+  };
+}
+
+export interface ApiMenuMenu extends Schema.SingleType {
+  collectionName: 'menus';
+  info: {
+    singularName: 'menu';
+    pluralName: 'menus';
+    displayName: 'Menu';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    routes: Attribute.Relation<
+      'api::menu.menu',
+      'oneToMany',
+      'api::route.route'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRouteRoute extends Schema.CollectionType {
+  collectionName: 'routes';
+  info: {
+    singularName: 'route';
+    pluralName: 'routes';
+    displayName: 'Route';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    url: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<'/'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::route.route',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::route.route',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::route.route',
+      'oneToMany',
+      'api::route.route'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -796,7 +877,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::accessory.accessory': ApiAccessoryAccessory;
-      'api::homepage-gallery.homepage-gallery': ApiHomepageGalleryHomepageGallery;
+      'api::featured.featured': ApiFeaturedFeatured;
+      'api::menu.menu': ApiMenuMenu;
+      'api::route.route': ApiRouteRoute;
     }
   }
 }
