@@ -68,6 +68,7 @@ export interface NexusGenInputs {
   }
   ComponentAccessoryAccessoryInput: { // input type
     cover?: string | null; // ID
+    coverDesktop?: string | null; // ID
     id?: string | null; // ID
     item?: string | null; // ID
     url?: string | null; // String
@@ -739,7 +740,8 @@ export interface NexusGenFieldTypes {
     data: NexusGenRootTypes['AccessoryEntity'][]; // [AccessoryEntity!]!
   }
   ComponentAccessoryAccessory: { // field return type
-    cover: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
+    cover: NexusGenRootTypes['UploadFileEntityResponse']; // UploadFileEntityResponse!
+    coverDesktop: NexusGenRootTypes['UploadFileEntityResponse'] | null; // UploadFileEntityResponse
     id: string; // ID!
     item: NexusGenRootTypes['AccessoryEntityResponse'] | null; // AccessoryEntityResponse
     url: string | null; // String
@@ -1085,6 +1087,7 @@ export interface NexusGenFieldTypeNames {
   }
   ComponentAccessoryAccessory: { // field return type name
     cover: 'UploadFileEntityResponse'
+    coverDesktop: 'UploadFileEntityResponse'
     id: 'ID'
     item: 'AccessoryEntityResponse'
     url: 'String'

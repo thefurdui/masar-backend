@@ -3,7 +3,7 @@ import type { Schema, Attribute } from '@strapi/strapi';
 export interface AccessoryAccessory extends Schema.Component {
   collectionName: 'components_accessory_accessories';
   info: {
-    displayName: 'accessory';
+    displayName: 'Featured';
     icon: 'paint';
     description: '';
   };
@@ -13,8 +13,9 @@ export interface AccessoryAccessory extends Schema.Component {
       'oneToOne',
       'api::accessory.accessory'
     >;
-    cover: Attribute.Media;
+    cover: Attribute.Media & Attribute.Required;
     url: Attribute.String;
+    coverDesktop: Attribute.Media;
   };
 }
 

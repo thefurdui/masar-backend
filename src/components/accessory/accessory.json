@@ -1,7 +1,7 @@
 {
   "collectionName": "components_accessory_accessories",
   "info": {
-    "displayName": "accessory",
+    "displayName": "Featured",
     "icon": "paint",
     "description": ""
   },
@@ -15,7 +15,7 @@
     "cover": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "videos"
@@ -23,6 +23,15 @@
     },
     "url": {
       "type": "string"
+    },
+    "coverDesktop": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
     }
   }
 }

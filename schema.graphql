@@ -81,7 +81,8 @@ input BooleanFilterInput {
 }
 
 type ComponentAccessoryAccessory {
-  cover: UploadFileEntityResponse
+  cover: UploadFileEntityResponse!
+  coverDesktop: UploadFileEntityResponse
   id: ID!
   item: AccessoryEntityResponse
   url: String
@@ -97,6 +98,7 @@ input ComponentAccessoryAccessoryFiltersInput {
 
 input ComponentAccessoryAccessoryInput {
   cover: ID
+  coverDesktop: ID
   id: ID
   item: ID
   url: String
