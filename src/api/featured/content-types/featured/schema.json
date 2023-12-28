@@ -4,7 +4,8 @@
   "info": {
     "singularName": "featured",
     "pluralName": "featureds",
-    "displayName": "Featured"
+    "displayName": "Featured",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,9 +13,10 @@
   "pluginOptions": {},
   "attributes": {
     "accessories": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::accessory.accessory"
+      "displayName": "accessory",
+      "type": "component",
+      "repeatable": true,
+      "component": "accessory.accessory"
     }
   }
 }

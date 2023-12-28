@@ -3,13 +3,13 @@
 
 
 type Accessory {
-  cover: UploadFileEntityResponse!
   createdAt: DateTime
   description: String
+  gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
   locale: String
   localizations(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
   name: String!
-  photos(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
+  price: ComponentAccessoryPrice
   publishedAt: DateTime
   updatedAt: DateTime
 }
@@ -38,15 +38,16 @@ input AccessoryFiltersInput {
   name: StringFilterInput
   not: AccessoryFiltersInput
   or: [AccessoryFiltersInput]
+  price: ComponentAccessoryPriceFiltersInput
   publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input AccessoryInput {
-  cover: ID
   description: String
+  gallery: [ID]
   name: String
-  photos: [ID]
+  price: ComponentAccessoryPriceInput
   publishedAt: DateTime
 }
 
@@ -77,6 +78,51 @@ input BooleanFilterInput {
   null: Boolean
   or: [Boolean]
   startsWith: Boolean
+}
+
+type ComponentAccessoryAccessory {
+  cover: UploadFileEntityResponse
+  id: ID!
+  item: AccessoryEntityResponse
+  url: String
+}
+
+input ComponentAccessoryAccessoryFiltersInput {
+  and: [ComponentAccessoryAccessoryFiltersInput]
+  item: AccessoryFiltersInput
+  not: ComponentAccessoryAccessoryFiltersInput
+  or: [ComponentAccessoryAccessoryFiltersInput]
+  url: StringFilterInput
+}
+
+input ComponentAccessoryAccessoryInput {
+  cover: ID
+  id: ID
+  item: ID
+  url: String
+}
+
+type ComponentAccessoryPrice {
+  eur: Int!
+  id: ID!
+  usd: Int!
+  uzs: Int!
+}
+
+input ComponentAccessoryPriceFiltersInput {
+  and: [ComponentAccessoryPriceFiltersInput]
+  eur: IntFilterInput
+  not: ComponentAccessoryPriceFiltersInput
+  or: [ComponentAccessoryPriceFiltersInput]
+  usd: IntFilterInput
+  uzs: IntFilterInput
+}
+
+input ComponentAccessoryPriceInput {
+  eur: Int
+  id: ID
+  usd: Int
+  uzs: Int
 }
 
 """
@@ -145,7 +191,7 @@ type Error {
 }
 
 type Featured {
-  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
+  accessories(filters: ComponentAccessoryAccessoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentAccessoryAccessory]
   createdAt: DateTime
   publishedAt: DateTime
   updatedAt: DateTime
@@ -166,7 +212,7 @@ type FeaturedEntityResponseCollection {
 }
 
 input FeaturedFiltersInput {
-  accessories: AccessoryFiltersInput
+  accessories: ComponentAccessoryAccessoryFiltersInput
   and: [FeaturedFiltersInput]
   createdAt: DateTimeFilterInput
   not: FeaturedFiltersInput
@@ -176,7 +222,7 @@ input FeaturedFiltersInput {
 }
 
 input FeaturedInput {
-  accessories: [ID]
+  accessories: [ComponentAccessoryAccessoryInput]
   publishedAt: DateTime
 }
 
@@ -215,7 +261,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = Accessory | Featured | I18NLocale | Menu | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = Accessory | ComponentAccessoryAccessory | ComponentAccessoryPrice | Featured | I18NLocale | Menu | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String

@@ -34,7 +34,7 @@
       },
       "type": "text"
     },
-    "photos": {
+    "gallery": {
       "type": "media",
       "multiple": true,
       "required": false,
@@ -48,19 +48,16 @@
         }
       }
     },
-    "cover": {
-      "allowedTypes": [
-        "images",
-        "videos"
-      ],
-      "type": "media",
-      "multiple": false,
+    "price": {
+      "displayName": "Price",
+      "type": "component",
+      "repeatable": false,
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       },
-      "required": true
+      "component": "accessory.price"
     }
   }
 }

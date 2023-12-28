@@ -707,14 +707,13 @@ export interface ApiAccessoryAccessory extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    photos: Attribute.Media &
+    gallery: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
         };
       }>;
-    cover: Attribute.Media &
-      Attribute.Required &
+    price: Attribute.Component<'accessory.price'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -750,16 +749,13 @@ export interface ApiFeaturedFeatured extends Schema.SingleType {
     singularName: 'featured';
     pluralName: 'featureds';
     displayName: 'Featured';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    accessories: Attribute.Relation<
-      'api::featured.featured',
-      'oneToMany',
-      'api::accessory.accessory'
-    >;
+    accessories: Attribute.Component<'accessory.accessory', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_accessory_accessories",
+  "info": {
+    "displayName": "accessory",
+    "icon": "paint",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "item": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::accessory.accessory"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

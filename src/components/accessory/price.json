@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_accessory_prices",
+  "info": {
+    "displayName": "Price",
+    "icon": "database"
+  },
+  "options": {},
+  "attributes": {
+    "eur": {
+      "type": "integer",
+      "required": true
+    },
+    "usd": {
+      "type": "integer",
+      "required": true
+    },
+    "uzs": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}
