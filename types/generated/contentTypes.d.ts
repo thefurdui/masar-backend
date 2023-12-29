@@ -719,6 +719,20 @@ export interface ApiAccessoryAccessory extends Schema.CollectionType {
           localized: false;
         };
       }>;
+    collection: Attribute.Relation<
+      'api::accessory.accessory',
+      'manyToOne',
+      'api::collection.collection'
+    >;
+    type: Attribute.Enumeration<
+      ['ring', 'earring', 'brooch', 'necklace', 'bracelet', 'other']
+    > &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -738,6 +752,69 @@ export interface ApiAccessoryAccessory extends Schema.CollectionType {
       'api::accessory.accessory',
       'oneToMany',
       'api::accessory.accessory'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiCollectionCollection extends Schema.CollectionType {
+  collectionName: 'collections';
+  info: {
+    singularName: 'collection';
+    pluralName: 'collections';
+    displayName: 'Collection';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    accessories: Attribute.Relation<
+      'api::collection.collection',
+      'oneToMany',
+      'api::accessory.accessory'
+    >;
+    genders: Attribute.Relation<
+      'api::collection.collection',
+      'manyToMany',
+      'api::gender.gender'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::collection.collection',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::collection.collection',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::collection.collection',
+      'oneToMany',
+      'api::collection.collection'
     >;
     locale: Attribute.String;
   };
@@ -774,28 +851,101 @@ export interface ApiFeaturedFeatured extends Schema.SingleType {
   };
 }
 
+export interface ApiGenderGender extends Schema.CollectionType {
+  collectionName: 'genders';
+  info: {
+    singularName: 'gender';
+    pluralName: 'genders';
+    displayName: 'Gender';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    collections: Attribute.Relation<
+      'api::gender.gender',
+      'manyToMany',
+      'api::collection.collection'
+    >;
+    name: Attribute.String & Attribute.Required;
+    route: Attribute.Relation<
+      'api::gender.gender',
+      'oneToOne',
+      'api::route.route'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::gender.gender',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::gender.gender',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiMenuMenu extends Schema.SingleType {
   collectionName: 'menus';
   info: {
     singularName: 'menu';
     pluralName: 'menus';
     displayName: 'Menu';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    routes: Attribute.Relation<
-      'api::menu.menu',
-      'oneToMany',
-      'api::route.route'
-    >;
+    items: Attribute.Component<'global.route', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNavigatorNavigator extends Schema.SingleType {
+  collectionName: 'navigators';
+  info: {
+    singularName: 'navigator';
+    pluralName: 'navigators';
+    displayName: 'Navigator';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    genders: Attribute.Relation<
+      'api::navigator.navigator',
+      'oneToMany',
+      'api::gender.gender'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::navigator.navigator',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::navigator.navigator',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -811,27 +961,8 @@ export interface ApiRouteRoute extends Schema.CollectionType {
   options: {
     draftAndPublish: true;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    url: Attribute.Text &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      Attribute.DefaultTo<'/'>;
+    url: Attribute.String & Attribute.Required & Attribute.DefaultTo<'/'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -847,12 +978,6 @@ export interface ApiRouteRoute extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::route.route',
-      'oneToMany',
-      'api::route.route'
-    >;
-    locale: Attribute.String;
   };
 }
 
@@ -873,8 +998,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::accessory.accessory': ApiAccessoryAccessory;
+      'api::collection.collection': ApiCollectionCollection;
       'api::featured.featured': ApiFeaturedFeatured;
+      'api::gender.gender': ApiGenderGender;
       'api::menu.menu': ApiMenuMenu;
+      'api::navigator.navigator': ApiNavigatorNavigator;
       'api::route.route': ApiRouteRoute;
     }
   }

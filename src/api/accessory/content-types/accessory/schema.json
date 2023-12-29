@@ -58,6 +58,29 @@
         }
       },
       "component": "accessory.price"
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collection.collection",
+      "inversedBy": "accessories"
+    },
+    "type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "ring",
+        "earring",
+        "brooch",
+        "necklace",
+        "bracelet",
+        "other"
+      ],
+      "required": true
     }
   }
 }

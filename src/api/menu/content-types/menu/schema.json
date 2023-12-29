@@ -4,17 +4,19 @@
   "info": {
     "singularName": "menu",
     "pluralName": "menus",
-    "displayName": "Menu"
+    "displayName": "Menu",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "routes": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::route.route"
+    "items": {
+      "displayName": "Route",
+      "type": "component",
+      "repeatable": true,
+      "component": "global.route"
     }
   }
 }

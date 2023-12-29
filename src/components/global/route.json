@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_global_routes",
+  "info": {
+    "displayName": "Route"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "route": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::route.route"
+    }
+  }
+}

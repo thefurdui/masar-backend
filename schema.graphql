@@ -3,6 +3,7 @@
 
 
 type Accessory {
+  collection: CollectionEntityResponse
   createdAt: DateTime
   description: String
   gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
@@ -11,6 +12,7 @@ type Accessory {
   name: String!
   price: ComponentAccessoryPrice
   publishedAt: DateTime
+  type: ENUM_ACCESSORY_TYPE!
   updatedAt: DateTime
 }
 
@@ -30,6 +32,7 @@ type AccessoryEntityResponseCollection {
 
 input AccessoryFiltersInput {
   and: [AccessoryFiltersInput]
+  collection: CollectionFiltersInput
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   id: IDFilterInput
@@ -40,15 +43,18 @@ input AccessoryFiltersInput {
   or: [AccessoryFiltersInput]
   price: ComponentAccessoryPriceFiltersInput
   publishedAt: DateTimeFilterInput
+  type: StringFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input AccessoryInput {
+  collection: ID
   description: String
   gallery: [ID]
   name: String
   price: ComponentAccessoryPriceInput
   publishedAt: DateTime
+  type: ENUM_ACCESSORY_TYPE
 }
 
 type AccessoryRelationResponseCollection {
@@ -78,6 +84,60 @@ input BooleanFilterInput {
   null: Boolean
   or: [Boolean]
   startsWith: Boolean
+}
+
+type Collection {
+  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
+  createdAt: DateTime
+  description: String
+  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
+  locale: String
+  localizations(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionRelationResponseCollection
+  name: String
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type CollectionEntity {
+  attributes: Collection
+  id: ID
+}
+
+type CollectionEntityResponse {
+  data: CollectionEntity
+}
+
+type CollectionEntityResponseCollection {
+  data: [CollectionEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input CollectionFiltersInput {
+  accessories: AccessoryFiltersInput
+  and: [CollectionFiltersInput]
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  genders: GenderFiltersInput
+  id: IDFilterInput
+  locale: StringFilterInput
+  localizations: CollectionFiltersInput
+  name: StringFilterInput
+  not: CollectionFiltersInput
+  or: [CollectionFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input CollectionInput {
+  accessories: [ID]
+  description: String
+  genders: [ID]
+  name: String
+  publishedAt: DateTime
+}
+
+type CollectionRelationResponseCollection {
+  data: [CollectionEntity!]!
 }
 
 type ComponentAccessoryAccessory {
@@ -125,6 +185,57 @@ input ComponentAccessoryPriceInput {
   id: ID
   usd: Int
   uzs: Int
+}
+
+type ComponentGlobalRoute {
+  id: ID!
+  name: String
+  route: RouteEntityResponse
+}
+
+input ComponentGlobalRouteFiltersInput {
+  and: [ComponentGlobalRouteFiltersInput]
+  name: StringFilterInput
+  not: ComponentGlobalRouteFiltersInput
+  or: [ComponentGlobalRouteFiltersInput]
+  route: RouteFiltersInput
+}
+
+input ComponentGlobalRouteInput {
+  id: ID
+  name: String
+  route: ID
+}
+
+type ComponentNavigatorTarget {
+  collection: CollectionEntityResponse
+  id: ID!
+}
+
+input ComponentNavigatorTargetFiltersInput {
+  and: [ComponentNavigatorTargetFiltersInput]
+  collection: CollectionFiltersInput
+  not: ComponentNavigatorTargetFiltersInput
+  or: [ComponentNavigatorTargetFiltersInput]
+}
+
+input ComponentNavigatorTargetInput {
+  collection: ID
+  id: ID
+}
+
+type ComponentNavigatorTargetRoute {
+  id: ID!
+}
+
+input ComponentNavigatorTargetRouteFiltersInput {
+  and: [ComponentNavigatorTargetRouteFiltersInput]
+  not: ComponentNavigatorTargetRouteFiltersInput
+  or: [ComponentNavigatorTargetRouteFiltersInput]
+}
+
+input ComponentNavigatorTargetRouteInput {
+  id: ID
 }
 
 """
@@ -185,6 +296,15 @@ input DateTimeFilterInput {
   null: Boolean
   or: [DateTime]
   startsWith: DateTime
+}
+
+enum ENUM_ACCESSORY_TYPE {
+  bracelet
+  brooch
+  earring
+  necklace
+  other
+  ring
 }
 
 type Error {
@@ -263,7 +383,54 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-union GenericMorph = Accessory | ComponentAccessoryAccessory | ComponentAccessoryPrice | Featured | I18NLocale | Menu | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+type Gender {
+  collections(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionRelationResponseCollection
+  createdAt: DateTime
+  name: String!
+  publishedAt: DateTime
+  route: RouteEntityResponse
+  updatedAt: DateTime
+}
+
+type GenderEntity {
+  attributes: Gender
+  id: ID
+}
+
+type GenderEntityResponse {
+  data: GenderEntity
+}
+
+type GenderEntityResponseCollection {
+  data: [GenderEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input GenderFiltersInput {
+  and: [GenderFiltersInput]
+  collections: CollectionFiltersInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: GenderFiltersInput
+  or: [GenderFiltersInput]
+  publishedAt: DateTimeFilterInput
+  route: RouteFiltersInput
+  updatedAt: DateTimeFilterInput
+}
+
+input GenderInput {
+  collections: [ID]
+  name: String
+  publishedAt: DateTime
+  route: ID
+}
+
+type GenderRelationResponseCollection {
+  data: [GenderEntity!]!
+}
+
+union GenericMorph = Accessory | Collection | ComponentAccessoryAccessory | ComponentAccessoryPrice | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | Featured | Gender | I18NLocale | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 type I18NLocale {
   code: String
@@ -421,8 +588,8 @@ input LongFilterInput {
 
 type Menu {
   createdAt: DateTime
+  items(filters: ComponentGlobalRouteFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentGlobalRoute]
   publishedAt: DateTime
-  routes(filters: RouteFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RouteRelationResponseCollection
   updatedAt: DateTime
 }
 
@@ -443,16 +610,16 @@ type MenuEntityResponseCollection {
 input MenuFiltersInput {
   and: [MenuFiltersInput]
   createdAt: DateTimeFilterInput
+  items: ComponentGlobalRouteFiltersInput
   not: MenuFiltersInput
   or: [MenuFiltersInput]
   publishedAt: DateTimeFilterInput
-  routes: RouteFiltersInput
   updatedAt: DateTimeFilterInput
 }
 
 input MenuInput {
+  items: [ComponentGlobalRouteInput]
   publishedAt: DateTime
-  routes: [ID]
 }
 
 type MenuRelationResponseCollection {
@@ -464,8 +631,10 @@ type Mutation {
   changePassword(currentPassword: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   createAccessory(data: AccessoryInput!, locale: I18NLocaleCode): AccessoryEntityResponse
   createAccessoryLocalization(data: AccessoryInput, id: ID, locale: I18NLocaleCode): AccessoryEntityResponse
-  createRoute(data: RouteInput!, locale: I18NLocaleCode): RouteEntityResponse
-  createRouteLocalization(data: RouteInput, id: ID, locale: I18NLocaleCode): RouteEntityResponse
+  createCollection(data: CollectionInput!, locale: I18NLocaleCode): CollectionEntityResponse
+  createCollectionLocalization(data: CollectionInput, id: ID, locale: I18NLocaleCode): CollectionEntityResponse
+  createGender(data: GenderInput!): GenderEntityResponse
+  createRoute(data: RouteInput!): RouteEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
 
@@ -475,9 +644,12 @@ type Mutation {
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
   deleteAccessory(id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
+  deleteCollection(id: ID!, locale: I18NLocaleCode): CollectionEntityResponse
   deleteFeatured: FeaturedEntityResponse
+  deleteGender(id: ID!): GenderEntityResponse
   deleteMenu: MenuEntityResponse
-  deleteRoute(id: ID!, locale: I18NLocaleCode): RouteEntityResponse
+  deleteNavigator: NavigatorEntityResponse
+  deleteRoute(id: ID!): RouteEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
 
@@ -504,10 +676,13 @@ type Mutation {
   """
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
   updateAccessory(data: AccessoryInput!, id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
+  updateCollection(data: CollectionInput!, id: ID!, locale: I18NLocaleCode): CollectionEntityResponse
   updateFeatured(data: FeaturedInput!): FeaturedEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
+  updateGender(data: GenderInput!, id: ID!): GenderEntityResponse
   updateMenu(data: MenuInput!): MenuEntityResponse
-  updateRoute(data: RouteInput!, id: ID!, locale: I18NLocaleCode): RouteEntityResponse
+  updateNavigator(data: NavigatorInput!): NavigatorEntityResponse
+  updateRoute(data: RouteInput!, id: ID!): RouteEntityResponse
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
 
@@ -517,6 +692,46 @@ type Mutation {
   """Update an existing user"""
   updateUsersPermissionsUser(data: UsersPermissionsUserInput!, id: ID!): UsersPermissionsUserEntityResponse!
   upload(field: String, file: Upload!, info: FileInfoInput, ref: String, refId: ID): UploadFileEntityResponse!
+}
+
+type Navigator {
+  createdAt: DateTime
+  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
+  publishedAt: DateTime
+  updatedAt: DateTime
+}
+
+type NavigatorEntity {
+  attributes: Navigator
+  id: ID
+}
+
+type NavigatorEntityResponse {
+  data: NavigatorEntity
+}
+
+type NavigatorEntityResponseCollection {
+  data: [NavigatorEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input NavigatorFiltersInput {
+  and: [NavigatorFiltersInput]
+  createdAt: DateTimeFilterInput
+  genders: GenderFiltersInput
+  not: NavigatorFiltersInput
+  or: [NavigatorFiltersInput]
+  publishedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input NavigatorInput {
+  genders: [ID]
+  publishedAt: DateTime
+}
+
+type NavigatorRelationResponseCollection {
+  data: [NavigatorEntity!]!
 }
 
 type Pagination {
@@ -541,13 +756,18 @@ enum PublicationState {
 type Query {
   accessories(filters: AccessoryFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryEntityResponseCollection
   accessory(id: ID, locale: I18NLocaleCode): AccessoryEntityResponse
+  collection(id: ID, locale: I18NLocaleCode): CollectionEntityResponse
+  collections(filters: CollectionFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionEntityResponseCollection
   featured(publicationState: PublicationState = LIVE): FeaturedEntityResponse
+  gender(id: ID): GenderEntityResponse
+  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderEntityResponseCollection
   i18NLocale(id: ID): I18NLocaleEntityResponse
   i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
   me: UsersPermissionsMe
   menu(publicationState: PublicationState = LIVE): MenuEntityResponse
-  route(id: ID, locale: I18NLocaleCode): RouteEntityResponse
-  routes(filters: RouteFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RouteEntityResponseCollection
+  navigator(publicationState: PublicationState = LIVE): NavigatorEntityResponse
+  route(id: ID): RouteEntityResponse
+  routes(filters: RouteFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RouteEntityResponseCollection
   uploadFile(id: ID): UploadFileEntityResponse
   uploadFiles(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileEntityResponseCollection
   uploadFolder(id: ID): UploadFolderEntityResponse
@@ -564,9 +784,6 @@ type ResponseCollectionMeta {
 
 type Route {
   createdAt: DateTime
-  locale: String
-  localizations(filters: RouteFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RouteRelationResponseCollection
-  name: String!
   publishedAt: DateTime
   updatedAt: DateTime
   url: String!
@@ -590,9 +807,6 @@ input RouteFiltersInput {
   and: [RouteFiltersInput]
   createdAt: DateTimeFilterInput
   id: IDFilterInput
-  locale: StringFilterInput
-  localizations: RouteFiltersInput
-  name: StringFilterInput
   not: RouteFiltersInput
   or: [RouteFiltersInput]
   publishedAt: DateTimeFilterInput
@@ -601,7 +815,6 @@ input RouteFiltersInput {
 }
 
 input RouteInput {
-  name: String
   publishedAt: DateTime
   url: String
 }
