@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "accessories",
+  "collectionName": "pieces",
   "info": {
-    "singularName": "accessory",
-    "pluralName": "accessories",
-    "displayName": "Accessory",
+    "singularName": "piece",
+    "pluralName": "pieces",
+    "displayName": "Piece",
     "description": ""
   },
   "options": {
@@ -23,7 +23,7 @@
         }
       },
       "type": "string",
-      "unique": false,
+      "unique": true,
       "required": true
     },
     "description": {
@@ -63,7 +63,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::collection.collection",
-      "inversedBy": "accessories"
+      "inversedBy": "pieces"
     },
     "type": {
       "pluginOptions": {

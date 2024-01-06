@@ -2,61 +2,6 @@
 ### Do not make changes to this file directly
 
 
-type Accessory {
-  collection: CollectionEntityResponse
-  createdAt: DateTime
-  description: String
-  gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
-  name: String!
-  price: ComponentPiecePrice
-  publishedAt: DateTime
-  type: ENUM_ACCESSORY_TYPE!
-  updatedAt: DateTime
-}
-
-type AccessoryEntity {
-  attributes: Accessory
-  id: ID
-}
-
-type AccessoryEntityResponse {
-  data: AccessoryEntity
-}
-
-type AccessoryEntityResponseCollection {
-  data: [AccessoryEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input AccessoryFiltersInput {
-  and: [AccessoryFiltersInput]
-  collection: CollectionFiltersInput
-  createdAt: DateTimeFilterInput
-  description: StringFilterInput
-  id: IDFilterInput
-  name: StringFilterInput
-  not: AccessoryFiltersInput
-  or: [AccessoryFiltersInput]
-  price: ComponentPiecePriceFiltersInput
-  publishedAt: DateTimeFilterInput
-  type: StringFilterInput
-  updatedAt: DateTimeFilterInput
-}
-
-input AccessoryInput {
-  collection: ID
-  description: String
-  gallery: [ID]
-  name: String
-  price: ComponentPiecePriceInput
-  publishedAt: DateTime
-  type: ENUM_ACCESSORY_TYPE
-}
-
-type AccessoryRelationResponseCollection {
-  data: [AccessoryEntity!]!
-}
-
 input BooleanFilterInput {
   and: [Boolean]
   between: [Boolean]
@@ -83,11 +28,11 @@ input BooleanFilterInput {
 }
 
 type Collection {
-  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
   createdAt: DateTime
   description: String
   genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
   name: String
+  pieces(filters: PieceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): PieceRelationResponseCollection
   publishedAt: DateTime
   updatedAt: DateTime
 }
@@ -107,7 +52,6 @@ type CollectionEntityResponseCollection {
 }
 
 input CollectionFiltersInput {
-  accessories: AccessoryFiltersInput
   and: [CollectionFiltersInput]
   createdAt: DateTimeFilterInput
   description: StringFilterInput
@@ -116,15 +60,16 @@ input CollectionFiltersInput {
   name: StringFilterInput
   not: CollectionFiltersInput
   or: [CollectionFiltersInput]
+  pieces: PieceFiltersInput
   publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input CollectionInput {
-  accessories: [ID]
   description: String
   genders: [ID]
   name: String
+  pieces: [ID]
   publishedAt: DateTime
 }
 
@@ -183,23 +128,23 @@ input ComponentNavigatorTargetRouteInput {
   id: ID
 }
 
-type ComponentPieceAccessory {
+type ComponentPiecePiece {
   cover: UploadFileEntityResponse!
   coverDesktop: UploadFileEntityResponse
   id: ID!
-  item: AccessoryEntityResponse
+  item: PieceEntityResponse
   url: String
 }
 
-input ComponentPieceAccessoryFiltersInput {
-  and: [ComponentPieceAccessoryFiltersInput]
-  item: AccessoryFiltersInput
-  not: ComponentPieceAccessoryFiltersInput
-  or: [ComponentPieceAccessoryFiltersInput]
+input ComponentPiecePieceFiltersInput {
+  and: [ComponentPiecePieceFiltersInput]
+  item: PieceFiltersInput
+  not: ComponentPiecePieceFiltersInput
+  or: [ComponentPiecePieceFiltersInput]
   url: StringFilterInput
 }
 
-input ComponentPieceAccessoryInput {
+input ComponentPiecePieceInput {
   cover: ID
   coverDesktop: ID
   id: ID
@@ -379,7 +324,12 @@ input DateTimeFilterInput {
   startsWith: DateTime
 }
 
-enum ENUM_ACCESSORY_TYPE {
+enum ENUM_CONTENTRELEASESRELEASEACTION_TYPE {
+  publish
+  unpublish
+}
+
+enum ENUM_PIECE_TYPE {
   bracelet
   brooch
   earring
@@ -388,19 +338,14 @@ enum ENUM_ACCESSORY_TYPE {
   ring
 }
 
-enum ENUM_CONTENTRELEASESRELEASEACTION_TYPE {
-  publish
-  unpublish
-}
-
 type Error {
   code: String!
   message: String
 }
 
 type Featured {
-  accessories(filters: ComponentPieceAccessoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentPieceAccessory]
   createdAt: DateTime
+  pieces(filters: ComponentPiecePieceFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentPiecePiece]
   publishedAt: DateTime
   updatedAt: DateTime
 }
@@ -420,17 +365,17 @@ type FeaturedEntityResponseCollection {
 }
 
 input FeaturedFiltersInput {
-  accessories: ComponentPieceAccessoryFiltersInput
   and: [FeaturedFiltersInput]
   createdAt: DateTimeFilterInput
   not: FeaturedFiltersInput
   or: [FeaturedFiltersInput]
+  pieces: ComponentPiecePieceFiltersInput
   publishedAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
 }
 
 input FeaturedInput {
-  accessories: [ComponentPieceAccessoryInput]
+  pieces: [ComponentPiecePieceInput]
   publishedAt: DateTime
 }
 
@@ -516,7 +461,7 @@ type GenderRelationResponseCollection {
   data: [GenderEntity!]!
 }
 
-union GenericMorph = Accessory | Collection | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ComponentPieceAccessory | ComponentPiecePrice | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = Collection | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ComponentPiecePiece | ComponentPiecePrice | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Piece | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 input IDFilterInput {
   and: [ID]
@@ -671,11 +616,11 @@ type MenuRelationResponseCollection {
 type Mutation {
   """Change user password. Confirm with the current password."""
   changePassword(currentPassword: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
-  createAccessory(data: AccessoryInput!): AccessoryEntityResponse
   createCollection(data: CollectionInput!): CollectionEntityResponse
   createContentReleasesRelease(data: ContentReleasesReleaseInput!): ContentReleasesReleaseEntityResponse
   createContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!): ContentReleasesReleaseActionEntityResponse
   createGender(data: GenderInput!): GenderEntityResponse
+  createPiece(data: PieceInput!): PieceEntityResponse
   createRoute(data: RouteInput!): RouteEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
@@ -685,7 +630,6 @@ type Mutation {
 
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
-  deleteAccessory(id: ID!): AccessoryEntityResponse
   deleteCollection(id: ID!): CollectionEntityResponse
   deleteContentReleasesRelease(id: ID!): ContentReleasesReleaseEntityResponse
   deleteContentReleasesReleaseAction(id: ID!): ContentReleasesReleaseActionEntityResponse
@@ -693,6 +637,7 @@ type Mutation {
   deleteGender(id: ID!): GenderEntityResponse
   deleteMenu: MenuEntityResponse
   deleteNavigator: NavigatorEntityResponse
+  deletePiece(id: ID!): PieceEntityResponse
   deleteRoute(id: ID!): RouteEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
@@ -719,7 +664,6 @@ type Mutation {
   Reset user password. Confirm with a code (resetToken from forgotPassword)
   """
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
-  updateAccessory(data: AccessoryInput!, id: ID!): AccessoryEntityResponse
   updateCollection(data: CollectionInput!, id: ID!): CollectionEntityResponse
   updateContentReleasesRelease(data: ContentReleasesReleaseInput!, id: ID!): ContentReleasesReleaseEntityResponse
   updateContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!, id: ID!): ContentReleasesReleaseActionEntityResponse
@@ -728,6 +672,7 @@ type Mutation {
   updateGender(data: GenderInput!, id: ID!): GenderEntityResponse
   updateMenu(data: MenuInput!): MenuEntityResponse
   updateNavigator(data: NavigatorInput!): NavigatorEntityResponse
+  updatePiece(data: PieceInput!, id: ID!): PieceEntityResponse
   updateRoute(data: RouteInput!, id: ID!): RouteEntityResponse
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
   updateUploadFolder(data: UploadFolderInput!, id: ID!): UploadFolderEntityResponse
@@ -794,14 +739,67 @@ input PaginationArg {
   start: Int
 }
 
+type Piece {
+  collection: CollectionEntityResponse
+  createdAt: DateTime
+  description: String
+  gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
+  name: String!
+  price: ComponentPiecePrice
+  publishedAt: DateTime
+  type: ENUM_PIECE_TYPE!
+  updatedAt: DateTime
+}
+
+type PieceEntity {
+  attributes: Piece
+  id: ID
+}
+
+type PieceEntityResponse {
+  data: PieceEntity
+}
+
+type PieceEntityResponseCollection {
+  data: [PieceEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input PieceFiltersInput {
+  and: [PieceFiltersInput]
+  collection: CollectionFiltersInput
+  createdAt: DateTimeFilterInput
+  description: StringFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: PieceFiltersInput
+  or: [PieceFiltersInput]
+  price: ComponentPiecePriceFiltersInput
+  publishedAt: DateTimeFilterInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input PieceInput {
+  collection: ID
+  description: String
+  gallery: [ID]
+  name: String
+  price: ComponentPiecePriceInput
+  publishedAt: DateTime
+  type: ENUM_PIECE_TYPE
+}
+
+type PieceRelationResponseCollection {
+  data: [PieceEntity!]!
+}
+
 enum PublicationState {
   LIVE
   PREVIEW
 }
 
 type Query {
-  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryEntityResponseCollection
-  accessory(id: ID): AccessoryEntityResponse
   collection(id: ID): CollectionEntityResponse
   collections(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionEntityResponseCollection
   contentReleasesRelease(id: ID): ContentReleasesReleaseEntityResponse
@@ -814,6 +812,8 @@ type Query {
   me: UsersPermissionsMe
   menu(publicationState: PublicationState = LIVE): MenuEntityResponse
   navigator(publicationState: PublicationState = LIVE): NavigatorEntityResponse
+  piece(id: ID): PieceEntityResponse
+  pieces(filters: PieceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): PieceEntityResponseCollection
   route(id: ID): RouteEntityResponse
   routes(filters: RouteFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): RouteEntityResponseCollection
   uploadFile(id: ID): UploadFileEntityResponse

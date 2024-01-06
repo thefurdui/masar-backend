@@ -34,19 +34,15 @@ export interface NavigatorTarget extends Schema.Component {
   };
 }
 
-export interface PieceAccessory extends Schema.Component {
-  collectionName: 'components_accessory_accessories';
+export interface PiecePiece extends Schema.Component {
+  collectionName: 'components_piece_pieces';
   info: {
     displayName: 'Featured';
     icon: 'paint';
     description: '';
   };
   attributes: {
-    item: Attribute.Relation<
-      'piece.accessory',
-      'oneToOne',
-      'api::accessory.accessory'
-    >;
+    item: Attribute.Relation<'piece.piece', 'oneToOne', 'api::piece.piece'>;
     cover: Attribute.Media & Attribute.Required;
     url: Attribute.String;
     coverDesktop: Attribute.Media;
@@ -54,7 +50,7 @@ export interface PieceAccessory extends Schema.Component {
 }
 
 export interface PiecePrice extends Schema.Component {
-  collectionName: 'components_accessory_prices';
+  collectionName: 'components_piece_prices';
   info: {
     displayName: 'Price';
     icon: 'database';
@@ -73,7 +69,7 @@ declare module '@strapi/types' {
       'global.route': GlobalRoute;
       'navigator.target-route': NavigatorTargetRoute;
       'navigator.target': NavigatorTarget;
-      'piece.accessory': PieceAccessory;
+      'piece.piece': PiecePiece;
       'piece.price': PiecePrice;
     }
   }

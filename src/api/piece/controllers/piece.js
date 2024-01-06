@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * accessory controller
+ * piece controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::accessory.accessory');
+module.exports = createCoreController('api::piece.piece');

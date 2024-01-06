@@ -1,5 +1,5 @@
 {
-  "collectionName": "components_accessory_accessories",
+  "collectionName": "components_piece_pieces",
   "info": {
     "displayName": "Featured",
     "icon": "paint",
@@ -10,7 +10,7 @@
     "item": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::accessory.accessory"
+      "target": "api::piece.piece"
     },
     "cover": {
       "type": "media",

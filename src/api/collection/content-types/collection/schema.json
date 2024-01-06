@@ -22,7 +22,8 @@
           "localized": true
         }
       },
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "description": {
       "pluginOptions": {
@@ -32,10 +33,10 @@
       },
       "type": "text"
     },
-    "accessories": {
+    "pieces": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::accessory.accessory",
+      "target": "api::piece.piece",
       "mappedBy": "collection"
     },
     "genders": {

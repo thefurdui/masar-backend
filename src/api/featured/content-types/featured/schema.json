@@ -12,11 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "accessories": {
-      "displayName": "accessory",
+    "pieces": {
+      "displayName": "piece",
       "type": "component",
       "repeatable": true,
-      "component": "piece.accessory"
+      "component": "piece.piece"
     }
   }
 }

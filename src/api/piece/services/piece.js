@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * accessory service
+ * piece service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::accessory.accessory');
+module.exports = createCoreService('api::piece.piece');

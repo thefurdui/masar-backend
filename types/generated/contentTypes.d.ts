@@ -724,80 +724,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiAccessoryAccessory extends Schema.CollectionType {
-  collectionName: 'accessories';
-  info: {
-    singularName: 'accessory';
-    pluralName: 'accessories';
-    displayName: 'Accessory';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    description: Attribute.Text &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    gallery: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    price: Attribute.Component<'piece.price'> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    collection: Attribute.Relation<
-      'api::accessory.accessory',
-      'manyToOne',
-      'api::collection.collection'
-    >;
-    type: Attribute.Enumeration<
-      ['ring', 'earring', 'brooch', 'necklace', 'bracelet', 'other']
-    > &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::accessory.accessory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::accessory.accessory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiCollectionCollection extends Schema.CollectionType {
   collectionName: 'collections';
   info: {
@@ -816,6 +742,7 @@ export interface ApiCollectionCollection extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String &
+      Attribute.Unique &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -827,10 +754,10 @@ export interface ApiCollectionCollection extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    accessories: Attribute.Relation<
+    pieces: Attribute.Relation<
       'api::collection.collection',
       'oneToMany',
-      'api::accessory.accessory'
+      'api::piece.piece'
     >;
     genders: Attribute.Relation<
       'api::collection.collection',
@@ -867,7 +794,7 @@ export interface ApiFeaturedFeatured extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
-    accessories: Attribute.Component<'piece.accessory', true>;
+    pieces: Attribute.Component<'piece.piece', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -985,6 +912,81 @@ export interface ApiNavigatorNavigator extends Schema.SingleType {
   };
 }
 
+export interface ApiPiecePiece extends Schema.CollectionType {
+  collectionName: 'pieces';
+  info: {
+    singularName: 'piece';
+    pluralName: 'pieces';
+    displayName: 'Piece';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    gallery: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    price: Attribute.Component<'piece.price'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    collection: Attribute.Relation<
+      'api::piece.piece',
+      'manyToOne',
+      'api::collection.collection'
+    >;
+    type: Attribute.Enumeration<
+      ['ring', 'earring', 'brooch', 'necklace', 'bracelet', 'other']
+    > &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::piece.piece',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::piece.piece',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiRouteRoute extends Schema.CollectionType {
   collectionName: 'routes';
   info: {
@@ -1033,12 +1035,12 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::accessory.accessory': ApiAccessoryAccessory;
       'api::collection.collection': ApiCollectionCollection;
       'api::featured.featured': ApiFeaturedFeatured;
       'api::gender.gender': ApiGenderGender;
       'api::menu.menu': ApiMenuMenu;
       'api::navigator.navigator': ApiNavigatorNavigator;
+      'api::piece.piece': ApiPiecePiece;
       'api::route.route': ApiRouteRoute;
     }
   }
