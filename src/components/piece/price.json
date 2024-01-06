@@ -2,7 +2,8 @@
   "collectionName": "components_accessory_prices",
   "info": {
     "displayName": "Price",
-    "icon": "database"
+    "icon": "database",
+    "description": ""
   },
   "options": {},
   "attributes": {

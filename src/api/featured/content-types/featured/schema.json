@@ -16,7 +16,7 @@
       "displayName": "accessory",
       "type": "component",
       "repeatable": true,
-      "component": "accessory.accessory"
+      "component": "piece.accessory"
     }
   }
 }

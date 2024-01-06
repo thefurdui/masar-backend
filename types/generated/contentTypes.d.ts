@@ -760,7 +760,7 @@ export interface ApiAccessoryAccessory extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    price: Attribute.Component<'accessory.price'> &
+    price: Attribute.Component<'piece.price'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -867,7 +867,7 @@ export interface ApiFeaturedFeatured extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
-    accessories: Attribute.Component<'accessory.accessory', true>;
+    accessories: Attribute.Component<'piece.accessory', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

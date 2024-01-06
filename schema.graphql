@@ -8,7 +8,7 @@ type Accessory {
   description: String
   gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
   name: String!
-  price: ComponentAccessoryPrice
+  price: ComponentPiecePrice
   publishedAt: DateTime
   type: ENUM_ACCESSORY_TYPE!
   updatedAt: DateTime
@@ -37,7 +37,7 @@ input AccessoryFiltersInput {
   name: StringFilterInput
   not: AccessoryFiltersInput
   or: [AccessoryFiltersInput]
-  price: ComponentAccessoryPriceFiltersInput
+  price: ComponentPiecePriceFiltersInput
   publishedAt: DateTimeFilterInput
   type: StringFilterInput
   updatedAt: DateTimeFilterInput
@@ -48,7 +48,7 @@ input AccessoryInput {
   description: String
   gallery: [ID]
   name: String
-  price: ComponentAccessoryPriceInput
+  price: ComponentPiecePriceInput
   publishedAt: DateTime
   type: ENUM_ACCESSORY_TYPE
 }
@@ -132,53 +132,6 @@ type CollectionRelationResponseCollection {
   data: [CollectionEntity!]!
 }
 
-type ComponentAccessoryAccessory {
-  cover: UploadFileEntityResponse!
-  coverDesktop: UploadFileEntityResponse
-  id: ID!
-  item: AccessoryEntityResponse
-  url: String
-}
-
-input ComponentAccessoryAccessoryFiltersInput {
-  and: [ComponentAccessoryAccessoryFiltersInput]
-  item: AccessoryFiltersInput
-  not: ComponentAccessoryAccessoryFiltersInput
-  or: [ComponentAccessoryAccessoryFiltersInput]
-  url: StringFilterInput
-}
-
-input ComponentAccessoryAccessoryInput {
-  cover: ID
-  coverDesktop: ID
-  id: ID
-  item: ID
-  url: String
-}
-
-type ComponentAccessoryPrice {
-  eur: Int!
-  id: ID!
-  usd: Int!
-  uzs: Int!
-}
-
-input ComponentAccessoryPriceFiltersInput {
-  and: [ComponentAccessoryPriceFiltersInput]
-  eur: IntFilterInput
-  not: ComponentAccessoryPriceFiltersInput
-  or: [ComponentAccessoryPriceFiltersInput]
-  usd: IntFilterInput
-  uzs: IntFilterInput
-}
-
-input ComponentAccessoryPriceInput {
-  eur: Int
-  id: ID
-  usd: Int
-  uzs: Int
-}
-
 type ComponentGlobalRoute {
   id: ID!
   name: String
@@ -228,6 +181,53 @@ input ComponentNavigatorTargetRouteFiltersInput {
 
 input ComponentNavigatorTargetRouteInput {
   id: ID
+}
+
+type ComponentPieceAccessory {
+  cover: UploadFileEntityResponse!
+  coverDesktop: UploadFileEntityResponse
+  id: ID!
+  item: AccessoryEntityResponse
+  url: String
+}
+
+input ComponentPieceAccessoryFiltersInput {
+  and: [ComponentPieceAccessoryFiltersInput]
+  item: AccessoryFiltersInput
+  not: ComponentPieceAccessoryFiltersInput
+  or: [ComponentPieceAccessoryFiltersInput]
+  url: StringFilterInput
+}
+
+input ComponentPieceAccessoryInput {
+  cover: ID
+  coverDesktop: ID
+  id: ID
+  item: ID
+  url: String
+}
+
+type ComponentPiecePrice {
+  eur: Int!
+  id: ID!
+  usd: Int!
+  uzs: Int!
+}
+
+input ComponentPiecePriceFiltersInput {
+  and: [ComponentPiecePriceFiltersInput]
+  eur: IntFilterInput
+  not: ComponentPiecePriceFiltersInput
+  or: [ComponentPiecePriceFiltersInput]
+  usd: IntFilterInput
+  uzs: IntFilterInput
+}
+
+input ComponentPiecePriceInput {
+  eur: Int
+  id: ID
+  usd: Int
+  uzs: Int
 }
 
 type ContentReleasesRelease {
@@ -399,7 +399,7 @@ type Error {
 }
 
 type Featured {
-  accessories(filters: ComponentAccessoryAccessoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentAccessoryAccessory]
+  accessories(filters: ComponentPieceAccessoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentPieceAccessory]
   createdAt: DateTime
   publishedAt: DateTime
   updatedAt: DateTime
@@ -420,7 +420,7 @@ type FeaturedEntityResponseCollection {
 }
 
 input FeaturedFiltersInput {
-  accessories: ComponentAccessoryAccessoryFiltersInput
+  accessories: ComponentPieceAccessoryFiltersInput
   and: [FeaturedFiltersInput]
   createdAt: DateTimeFilterInput
   not: FeaturedFiltersInput
@@ -430,7 +430,7 @@ input FeaturedFiltersInput {
 }
 
 input FeaturedInput {
-  accessories: [ComponentAccessoryAccessoryInput]
+  accessories: [ComponentPieceAccessoryInput]
   publishedAt: DateTime
 }
 
@@ -516,7 +516,7 @@ type GenderRelationResponseCollection {
   data: [GenderEntity!]!
 }
 
-union GenericMorph = Accessory | Collection | ComponentAccessoryAccessory | ComponentAccessoryPrice | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = Accessory | Collection | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ComponentPieceAccessory | ComponentPiecePrice | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 input IDFilterInput {
   and: [ID]

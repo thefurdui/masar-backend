@@ -1,37 +1,5 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface AccessoryAccessory extends Schema.Component {
-  collectionName: 'components_accessory_accessories';
-  info: {
-    displayName: 'Featured';
-    icon: 'paint';
-    description: '';
-  };
-  attributes: {
-    item: Attribute.Relation<
-      'accessory.accessory',
-      'oneToOne',
-      'api::accessory.accessory'
-    >;
-    cover: Attribute.Media & Attribute.Required;
-    url: Attribute.String;
-    coverDesktop: Attribute.Media;
-  };
-}
-
-export interface AccessoryPrice extends Schema.Component {
-  collectionName: 'components_accessory_prices';
-  info: {
-    displayName: 'Price';
-    icon: 'database';
-  };
-  attributes: {
-    eur: Attribute.Integer & Attribute.Required;
-    usd: Attribute.Integer & Attribute.Required;
-    uzs: Attribute.Integer & Attribute.Required;
-  };
-}
-
 export interface GlobalRoute extends Schema.Component {
   collectionName: 'components_global_routes';
   info: {
@@ -66,14 +34,47 @@ export interface NavigatorTarget extends Schema.Component {
   };
 }
 
+export interface PieceAccessory extends Schema.Component {
+  collectionName: 'components_accessory_accessories';
+  info: {
+    displayName: 'Featured';
+    icon: 'paint';
+    description: '';
+  };
+  attributes: {
+    item: Attribute.Relation<
+      'piece.accessory',
+      'oneToOne',
+      'api::accessory.accessory'
+    >;
+    cover: Attribute.Media & Attribute.Required;
+    url: Attribute.String;
+    coverDesktop: Attribute.Media;
+  };
+}
+
+export interface PiecePrice extends Schema.Component {
+  collectionName: 'components_accessory_prices';
+  info: {
+    displayName: 'Price';
+    icon: 'database';
+    description: '';
+  };
+  attributes: {
+    eur: Attribute.Integer & Attribute.Required;
+    usd: Attribute.Integer & Attribute.Required;
+    uzs: Attribute.Integer & Attribute.Required;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'accessory.accessory': AccessoryAccessory;
-      'accessory.price': AccessoryPrice;
       'global.route': GlobalRoute;
       'navigator.target-route': NavigatorTargetRoute;
       'navigator.target': NavigatorTarget;
+      'piece.accessory': PieceAccessory;
+      'piece.price': PiecePrice;
     }
   }
 }

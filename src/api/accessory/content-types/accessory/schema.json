@@ -57,7 +57,7 @@
           "localized": false
         }
       },
-      "component": "accessory.price"
+      "component": "piece.price"
     },
     "collection": {
       "type": "relation",
