@@ -9,15 +9,18 @@
   "attributes": {
     "eur": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 0
     },
     "usd": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 0
     },
     "uzs": {
       "type": "integer",
-      "required": true
+      "required": true,
+      "min": 0
     }
   }
 }

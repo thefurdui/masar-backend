@@ -39,11 +39,14 @@
       "target": "api::piece.piece",
       "mappedBy": "collection"
     },
-    "genders": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::gender.gender",
-      "inversedBy": "collections"
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "women",
+        "men",
+        "unisex"
+      ],
+      "required": true
     }
   }
 }

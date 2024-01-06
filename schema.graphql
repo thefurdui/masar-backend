@@ -30,7 +30,7 @@ input BooleanFilterInput {
 type Collection {
   createdAt: DateTime
   description: String
-  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
+  gender: ENUM_COLLECTION_GENDER!
   name: String
   pieces(filters: PieceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): PieceRelationResponseCollection
   publishedAt: DateTime
@@ -55,7 +55,7 @@ input CollectionFiltersInput {
   and: [CollectionFiltersInput]
   createdAt: DateTimeFilterInput
   description: StringFilterInput
-  genders: GenderFiltersInput
+  gender: StringFilterInput
   id: IDFilterInput
   name: StringFilterInput
   not: CollectionFiltersInput
@@ -67,7 +67,7 @@ input CollectionFiltersInput {
 
 input CollectionInput {
   description: String
-  genders: [ID]
+  gender: ENUM_COLLECTION_GENDER
   name: String
   pieces: [ID]
   publishedAt: DateTime
@@ -95,37 +95,6 @@ input ComponentGlobalRouteInput {
   id: ID
   name: String
   route: ID
-}
-
-type ComponentNavigatorTarget {
-  collection: CollectionEntityResponse
-  id: ID!
-}
-
-input ComponentNavigatorTargetFiltersInput {
-  and: [ComponentNavigatorTargetFiltersInput]
-  collection: CollectionFiltersInput
-  not: ComponentNavigatorTargetFiltersInput
-  or: [ComponentNavigatorTargetFiltersInput]
-}
-
-input ComponentNavigatorTargetInput {
-  collection: ID
-  id: ID
-}
-
-type ComponentNavigatorTargetRoute {
-  id: ID!
-}
-
-input ComponentNavigatorTargetRouteFiltersInput {
-  and: [ComponentNavigatorTargetRouteFiltersInput]
-  not: ComponentNavigatorTargetRouteFiltersInput
-  or: [ComponentNavigatorTargetRouteFiltersInput]
-}
-
-input ComponentNavigatorTargetRouteInput {
-  id: ID
 }
 
 type ComponentPiecePiece {
@@ -324,6 +293,12 @@ input DateTimeFilterInput {
   startsWith: DateTime
 }
 
+enum ENUM_COLLECTION_GENDER {
+  men
+  unisex
+  women
+}
+
 enum ENUM_CONTENTRELEASESRELEASEACTION_TYPE {
   publish
   unpublish
@@ -414,54 +389,7 @@ input FloatFilterInput {
   startsWith: Float
 }
 
-type Gender {
-  collections(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionRelationResponseCollection
-  createdAt: DateTime
-  name: String!
-  publishedAt: DateTime
-  route: RouteEntityResponse
-  updatedAt: DateTime
-}
-
-type GenderEntity {
-  attributes: Gender
-  id: ID
-}
-
-type GenderEntityResponse {
-  data: GenderEntity
-}
-
-type GenderEntityResponseCollection {
-  data: [GenderEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input GenderFiltersInput {
-  and: [GenderFiltersInput]
-  collections: CollectionFiltersInput
-  createdAt: DateTimeFilterInput
-  id: IDFilterInput
-  name: StringFilterInput
-  not: GenderFiltersInput
-  or: [GenderFiltersInput]
-  publishedAt: DateTimeFilterInput
-  route: RouteFiltersInput
-  updatedAt: DateTimeFilterInput
-}
-
-input GenderInput {
-  collections: [ID]
-  name: String
-  publishedAt: DateTime
-  route: ID
-}
-
-type GenderRelationResponseCollection {
-  data: [GenderEntity!]!
-}
-
-union GenericMorph = Collection | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ComponentPiecePiece | ComponentPiecePrice | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Piece | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
+union GenericMorph = Collection | ComponentGlobalRoute | ComponentPiecePiece | ComponentPiecePrice | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Menu | Piece | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 input IDFilterInput {
   and: [ID]
@@ -619,7 +547,6 @@ type Mutation {
   createCollection(data: CollectionInput!): CollectionEntityResponse
   createContentReleasesRelease(data: ContentReleasesReleaseInput!): ContentReleasesReleaseEntityResponse
   createContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!): ContentReleasesReleaseActionEntityResponse
-  createGender(data: GenderInput!): GenderEntityResponse
   createPiece(data: PieceInput!): PieceEntityResponse
   createRoute(data: RouteInput!): RouteEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
@@ -634,9 +561,7 @@ type Mutation {
   deleteContentReleasesRelease(id: ID!): ContentReleasesReleaseEntityResponse
   deleteContentReleasesReleaseAction(id: ID!): ContentReleasesReleaseActionEntityResponse
   deleteFeatured: FeaturedEntityResponse
-  deleteGender(id: ID!): GenderEntityResponse
   deleteMenu: MenuEntityResponse
-  deleteNavigator: NavigatorEntityResponse
   deletePiece(id: ID!): PieceEntityResponse
   deleteRoute(id: ID!): RouteEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
@@ -669,9 +594,7 @@ type Mutation {
   updateContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!, id: ID!): ContentReleasesReleaseActionEntityResponse
   updateFeatured(data: FeaturedInput!): FeaturedEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
-  updateGender(data: GenderInput!, id: ID!): GenderEntityResponse
   updateMenu(data: MenuInput!): MenuEntityResponse
-  updateNavigator(data: NavigatorInput!): NavigatorEntityResponse
   updatePiece(data: PieceInput!, id: ID!): PieceEntityResponse
   updateRoute(data: RouteInput!, id: ID!): RouteEntityResponse
   updateUploadFile(data: UploadFileInput!, id: ID!): UploadFileEntityResponse
@@ -683,46 +606,6 @@ type Mutation {
   """Update an existing user"""
   updateUsersPermissionsUser(data: UsersPermissionsUserInput!, id: ID!): UsersPermissionsUserEntityResponse!
   upload(field: String, file: Upload!, info: FileInfoInput, ref: String, refId: ID): UploadFileEntityResponse!
-}
-
-type Navigator {
-  createdAt: DateTime
-  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
-  publishedAt: DateTime
-  updatedAt: DateTime
-}
-
-type NavigatorEntity {
-  attributes: Navigator
-  id: ID
-}
-
-type NavigatorEntityResponse {
-  data: NavigatorEntity
-}
-
-type NavigatorEntityResponseCollection {
-  data: [NavigatorEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input NavigatorFiltersInput {
-  and: [NavigatorFiltersInput]
-  createdAt: DateTimeFilterInput
-  genders: GenderFiltersInput
-  not: NavigatorFiltersInput
-  or: [NavigatorFiltersInput]
-  publishedAt: DateTimeFilterInput
-  updatedAt: DateTimeFilterInput
-}
-
-input NavigatorInput {
-  genders: [ID]
-  publishedAt: DateTime
-}
-
-type NavigatorRelationResponseCollection {
-  data: [NavigatorEntity!]!
 }
 
 type Pagination {
@@ -807,11 +690,8 @@ type Query {
   contentReleasesReleaseActions(filters: ContentReleasesReleaseActionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ContentReleasesReleaseActionEntityResponseCollection
   contentReleasesReleases(filters: ContentReleasesReleaseFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ContentReleasesReleaseEntityResponseCollection
   featured(publicationState: PublicationState = LIVE): FeaturedEntityResponse
-  gender(id: ID): GenderEntityResponse
-  genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderEntityResponseCollection
   me: UsersPermissionsMe
   menu(publicationState: PublicationState = LIVE): MenuEntityResponse
-  navigator(publicationState: PublicationState = LIVE): NavigatorEntityResponse
   piece(id: ID): PieceEntityResponse
   pieces(filters: PieceFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): PieceEntityResponseCollection
   route(id: ID): RouteEntityResponse

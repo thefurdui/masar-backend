@@ -11,29 +11,6 @@ export interface GlobalRoute extends Schema.Component {
   };
 }
 
-export interface NavigatorTargetRoute extends Schema.Component {
-  collectionName: 'components_navigator_target_routes';
-  info: {
-    displayName: 'Target Route';
-  };
-  attributes: {};
-}
-
-export interface NavigatorTarget extends Schema.Component {
-  collectionName: 'components_navigator_targets';
-  info: {
-    displayName: 'Target Collection';
-    description: '';
-  };
-  attributes: {
-    collection: Attribute.Relation<
-      'navigator.target',
-      'oneToOne',
-      'api::collection.collection'
-    >;
-  };
-}
-
 export interface PiecePiece extends Schema.Component {
   collectionName: 'components_piece_pieces';
   info: {
@@ -57,9 +34,21 @@ export interface PiecePrice extends Schema.Component {
     description: '';
   };
   attributes: {
-    eur: Attribute.Integer & Attribute.Required;
-    usd: Attribute.Integer & Attribute.Required;
-    uzs: Attribute.Integer & Attribute.Required;
+    eur: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    usd: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    uzs: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
   };
 }
 
@@ -67,8 +56,6 @@ declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'global.route': GlobalRoute;
-      'navigator.target-route': NavigatorTargetRoute;
-      'navigator.target': NavigatorTarget;
       'piece.piece': PiecePiece;
       'piece.price': PiecePrice;
     }

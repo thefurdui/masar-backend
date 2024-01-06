@@ -759,11 +759,8 @@ export interface ApiCollectionCollection extends Schema.CollectionType {
       'oneToMany',
       'api::piece.piece'
     >;
-    genders: Attribute.Relation<
-      'api::collection.collection',
-      'manyToMany',
-      'api::gender.gender'
-    >;
+    gender: Attribute.Enumeration<['women', 'men', 'unisex']> &
+      Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -813,47 +810,6 @@ export interface ApiFeaturedFeatured extends Schema.SingleType {
   };
 }
 
-export interface ApiGenderGender extends Schema.CollectionType {
-  collectionName: 'genders';
-  info: {
-    singularName: 'gender';
-    pluralName: 'genders';
-    displayName: 'Gender';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    collections: Attribute.Relation<
-      'api::gender.gender',
-      'manyToMany',
-      'api::collection.collection'
-    >;
-    name: Attribute.String & Attribute.Required;
-    route: Attribute.Relation<
-      'api::gender.gender',
-      'oneToOne',
-      'api::route.route'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::gender.gender',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::gender.gender',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiMenuMenu extends Schema.SingleType {
   collectionName: 'menus';
   info: {
@@ -873,41 +829,6 @@ export interface ApiMenuMenu extends Schema.SingleType {
     createdBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::menu.menu', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiNavigatorNavigator extends Schema.SingleType {
-  collectionName: 'navigators';
-  info: {
-    singularName: 'navigator';
-    pluralName: 'navigators';
-    displayName: 'Navigator';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    genders: Attribute.Relation<
-      'api::navigator.navigator',
-      'oneToMany',
-      'api::gender.gender'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::navigator.navigator',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::navigator.navigator',
-      'oneToOne',
-      'admin::user'
-    > &
       Attribute.Private;
   };
 }
@@ -1037,9 +958,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::collection.collection': ApiCollectionCollection;
       'api::featured.featured': ApiFeaturedFeatured;
-      'api::gender.gender': ApiGenderGender;
       'api::menu.menu': ApiMenuMenu;
-      'api::navigator.navigator': ApiNavigatorNavigator;
       'api::piece.piece': ApiPiecePiece;
       'api::route.route': ApiRouteRoute;
     }
