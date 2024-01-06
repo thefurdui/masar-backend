@@ -7,8 +7,6 @@ type Accessory {
   createdAt: DateTime
   description: String
   gallery(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UploadFileRelationResponseCollection
-  locale: String
-  localizations(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryRelationResponseCollection
   name: String!
   price: ComponentAccessoryPrice
   publishedAt: DateTime
@@ -36,8 +34,6 @@ input AccessoryFiltersInput {
   createdAt: DateTimeFilterInput
   description: StringFilterInput
   id: IDFilterInput
-  locale: StringFilterInput
-  localizations: AccessoryFiltersInput
   name: StringFilterInput
   not: AccessoryFiltersInput
   or: [AccessoryFiltersInput]
@@ -91,8 +87,6 @@ type Collection {
   createdAt: DateTime
   description: String
   genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderRelationResponseCollection
-  locale: String
-  localizations(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionRelationResponseCollection
   name: String
   publishedAt: DateTime
   updatedAt: DateTime
@@ -119,8 +113,6 @@ input CollectionFiltersInput {
   description: StringFilterInput
   genders: GenderFiltersInput
   id: IDFilterInput
-  locale: StringFilterInput
-  localizations: CollectionFiltersInput
   name: StringFilterInput
   not: CollectionFiltersInput
   or: [CollectionFiltersInput]
@@ -238,6 +230,95 @@ input ComponentNavigatorTargetRouteInput {
   id: ID
 }
 
+type ContentReleasesRelease {
+  actions(filters: ContentReleasesReleaseActionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ContentReleasesReleaseActionRelationResponseCollection
+  createdAt: DateTime
+  name: String!
+  releasedAt: DateTime
+  updatedAt: DateTime
+}
+
+type ContentReleasesReleaseAction {
+  contentType: String!
+  createdAt: DateTime
+  entry: GenericMorph
+  release: ContentReleasesReleaseEntityResponse
+  type: ENUM_CONTENTRELEASESRELEASEACTION_TYPE!
+  updatedAt: DateTime
+}
+
+type ContentReleasesReleaseActionEntity {
+  attributes: ContentReleasesReleaseAction
+  id: ID
+}
+
+type ContentReleasesReleaseActionEntityResponse {
+  data: ContentReleasesReleaseActionEntity
+}
+
+type ContentReleasesReleaseActionEntityResponseCollection {
+  data: [ContentReleasesReleaseActionEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ContentReleasesReleaseActionFiltersInput {
+  and: [ContentReleasesReleaseActionFiltersInput]
+  contentType: StringFilterInput
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  not: ContentReleasesReleaseActionFiltersInput
+  or: [ContentReleasesReleaseActionFiltersInput]
+  release: ContentReleasesReleaseFiltersInput
+  type: StringFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ContentReleasesReleaseActionInput {
+  contentType: String
+  release: ID
+  type: ENUM_CONTENTRELEASESRELEASEACTION_TYPE
+}
+
+type ContentReleasesReleaseActionRelationResponseCollection {
+  data: [ContentReleasesReleaseActionEntity!]!
+}
+
+type ContentReleasesReleaseEntity {
+  attributes: ContentReleasesRelease
+  id: ID
+}
+
+type ContentReleasesReleaseEntityResponse {
+  data: ContentReleasesReleaseEntity
+}
+
+type ContentReleasesReleaseEntityResponseCollection {
+  data: [ContentReleasesReleaseEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+input ContentReleasesReleaseFiltersInput {
+  actions: ContentReleasesReleaseActionFiltersInput
+  and: [ContentReleasesReleaseFiltersInput]
+  createdAt: DateTimeFilterInput
+  id: IDFilterInput
+  name: StringFilterInput
+  not: ContentReleasesReleaseFiltersInput
+  or: [ContentReleasesReleaseFiltersInput]
+  releasedAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+}
+
+input ContentReleasesReleaseInput {
+  actions: [ID]
+  name: String
+  releasedAt: DateTime
+}
+
+type ContentReleasesReleaseRelationResponseCollection {
+  data: [ContentReleasesReleaseEntity!]!
+}
+
 """
 A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -305,6 +386,11 @@ enum ENUM_ACCESSORY_TYPE {
   necklace
   other
   ring
+}
+
+enum ENUM_CONTENTRELEASESRELEASEACTION_TYPE {
+  publish
+  unpublish
 }
 
 type Error {
@@ -430,51 +516,7 @@ type GenderRelationResponseCollection {
   data: [GenderEntity!]!
 }
 
-union GenericMorph = Accessory | Collection | ComponentAccessoryAccessory | ComponentAccessoryPrice | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | Featured | Gender | I18NLocale | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
-
-type I18NLocale {
-  code: String
-  createdAt: DateTime
-  name: String
-  updatedAt: DateTime
-}
-
-"""A string used to identify an i18n locale"""
-scalar I18NLocaleCode
-
-type I18NLocaleEntity {
-  attributes: I18NLocale
-  id: ID
-}
-
-type I18NLocaleEntityResponse {
-  data: I18NLocaleEntity
-}
-
-type I18NLocaleEntityResponseCollection {
-  data: [I18NLocaleEntity!]!
-  meta: ResponseCollectionMeta!
-}
-
-input I18NLocaleFiltersInput {
-  and: [I18NLocaleFiltersInput]
-  code: StringFilterInput
-  createdAt: DateTimeFilterInput
-  id: IDFilterInput
-  name: StringFilterInput
-  not: I18NLocaleFiltersInput
-  or: [I18NLocaleFiltersInput]
-  updatedAt: DateTimeFilterInput
-}
-
-input I18NLocaleInput {
-  code: String
-  name: String
-}
-
-type I18NLocaleRelationResponseCollection {
-  data: [I18NLocaleEntity!]!
-}
+union GenericMorph = Accessory | Collection | ComponentAccessoryAccessory | ComponentAccessoryPrice | ComponentGlobalRoute | ComponentNavigatorTarget | ComponentNavigatorTargetRoute | ContentReleasesRelease | ContentReleasesReleaseAction | Featured | Gender | Menu | Navigator | Route | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 input IDFilterInput {
   and: [ID]
@@ -629,10 +671,10 @@ type MenuRelationResponseCollection {
 type Mutation {
   """Change user password. Confirm with the current password."""
   changePassword(currentPassword: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
-  createAccessory(data: AccessoryInput!, locale: I18NLocaleCode): AccessoryEntityResponse
-  createAccessoryLocalization(data: AccessoryInput, id: ID, locale: I18NLocaleCode): AccessoryEntityResponse
-  createCollection(data: CollectionInput!, locale: I18NLocaleCode): CollectionEntityResponse
-  createCollectionLocalization(data: CollectionInput, id: ID, locale: I18NLocaleCode): CollectionEntityResponse
+  createAccessory(data: AccessoryInput!): AccessoryEntityResponse
+  createCollection(data: CollectionInput!): CollectionEntityResponse
+  createContentReleasesRelease(data: ContentReleasesReleaseInput!): ContentReleasesReleaseEntityResponse
+  createContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!): ContentReleasesReleaseActionEntityResponse
   createGender(data: GenderInput!): GenderEntityResponse
   createRoute(data: RouteInput!): RouteEntityResponse
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
@@ -643,8 +685,10 @@ type Mutation {
 
   """Create a new user"""
   createUsersPermissionsUser(data: UsersPermissionsUserInput!): UsersPermissionsUserEntityResponse!
-  deleteAccessory(id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
-  deleteCollection(id: ID!, locale: I18NLocaleCode): CollectionEntityResponse
+  deleteAccessory(id: ID!): AccessoryEntityResponse
+  deleteCollection(id: ID!): CollectionEntityResponse
+  deleteContentReleasesRelease(id: ID!): ContentReleasesReleaseEntityResponse
+  deleteContentReleasesReleaseAction(id: ID!): ContentReleasesReleaseActionEntityResponse
   deleteFeatured: FeaturedEntityResponse
   deleteGender(id: ID!): GenderEntityResponse
   deleteMenu: MenuEntityResponse
@@ -675,8 +719,10 @@ type Mutation {
   Reset user password. Confirm with a code (resetToken from forgotPassword)
   """
   resetPassword(code: String!, password: String!, passwordConfirmation: String!): UsersPermissionsLoginPayload
-  updateAccessory(data: AccessoryInput!, id: ID!, locale: I18NLocaleCode): AccessoryEntityResponse
-  updateCollection(data: CollectionInput!, id: ID!, locale: I18NLocaleCode): CollectionEntityResponse
+  updateAccessory(data: AccessoryInput!, id: ID!): AccessoryEntityResponse
+  updateCollection(data: CollectionInput!, id: ID!): CollectionEntityResponse
+  updateContentReleasesRelease(data: ContentReleasesReleaseInput!, id: ID!): ContentReleasesReleaseEntityResponse
+  updateContentReleasesReleaseAction(data: ContentReleasesReleaseActionInput!, id: ID!): ContentReleasesReleaseActionEntityResponse
   updateFeatured(data: FeaturedInput!): FeaturedEntityResponse
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   updateGender(data: GenderInput!, id: ID!): GenderEntityResponse
@@ -754,15 +800,17 @@ enum PublicationState {
 }
 
 type Query {
-  accessories(filters: AccessoryFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryEntityResponseCollection
-  accessory(id: ID, locale: I18NLocaleCode): AccessoryEntityResponse
-  collection(id: ID, locale: I18NLocaleCode): CollectionEntityResponse
-  collections(filters: CollectionFiltersInput, locale: I18NLocaleCode, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionEntityResponseCollection
+  accessories(filters: AccessoryFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): AccessoryEntityResponseCollection
+  accessory(id: ID): AccessoryEntityResponse
+  collection(id: ID): CollectionEntityResponse
+  collections(filters: CollectionFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): CollectionEntityResponseCollection
+  contentReleasesRelease(id: ID): ContentReleasesReleaseEntityResponse
+  contentReleasesReleaseAction(id: ID): ContentReleasesReleaseActionEntityResponse
+  contentReleasesReleaseActions(filters: ContentReleasesReleaseActionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ContentReleasesReleaseActionEntityResponseCollection
+  contentReleasesReleases(filters: ContentReleasesReleaseFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ContentReleasesReleaseEntityResponseCollection
   featured(publicationState: PublicationState = LIVE): FeaturedEntityResponse
   gender(id: ID): GenderEntityResponse
   genders(filters: GenderFiltersInput, pagination: PaginationArg = {}, publicationState: PublicationState = LIVE, sort: [String] = []): GenderEntityResponseCollection
-  i18NLocale(id: ID): I18NLocaleEntityResponse
-  i18NLocales(filters: I18NLocaleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): I18NLocaleEntityResponseCollection
   me: UsersPermissionsMe
   menu(publicationState: PublicationState = LIVE): MenuEntityResponse
   navigator(publicationState: PublicationState = LIVE): NavigatorEntityResponse
