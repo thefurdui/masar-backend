@@ -346,7 +346,7 @@ export interface NexusGenInputs {
     or?: Array<NexusGenInputs['PieceFiltersInput'] | null> | null; // [PieceFiltersInput]
     price?: NexusGenInputs['ComponentPiecePriceFiltersInput'] | null; // ComponentPiecePriceFiltersInput
     publishedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
-    type?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    types?: NexusGenInputs['JSONFilterInput'] | null; // JSONFilterInput
     updatedAt?: NexusGenInputs['DateTimeFilterInput'] | null; // DateTimeFilterInput
   }
   PieceInput: { // input type
@@ -356,7 +356,7 @@ export interface NexusGenInputs {
     name?: string | null; // String
     price?: NexusGenInputs['ComponentPiecePriceInput'] | null; // ComponentPiecePriceInput
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    type?: NexusGenEnums['ENUM_PIECE_TYPE'] | null; // ENUM_PIECE_TYPE
+    types?: NexusGenScalars['JSON'] | null; // JSON
   }
   RouteFiltersInput: { // input type
     and?: Array<NexusGenInputs['RouteFiltersInput'] | null> | null; // [RouteFiltersInput]
@@ -561,7 +561,6 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   ENUM_COLLECTION_GENDER: "men" | "unisex" | "women"
   ENUM_CONTENTRELEASESRELEASEACTION_TYPE: "publish" | "unpublish"
-  ENUM_PIECE_TYPE: "bracelet" | "brooch" | "earring" | "necklace" | "other" | "ring"
   PublicationState: "live" | "preview"
 }
 
@@ -659,7 +658,7 @@ export interface NexusGenObjects {
     description?: string | null; // String
     name: string; // String!
     publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    type: NexusGenEnums['ENUM_PIECE_TYPE']; // ENUM_PIECE_TYPE!
+    types: NexusGenScalars['JSON']; // JSON!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   PieceEntity: {};
@@ -973,7 +972,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     price: NexusGenRootTypes['ComponentPiecePrice'] | null; // ComponentPiecePrice
     publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    type: NexusGenEnums['ENUM_PIECE_TYPE']; // ENUM_PIECE_TYPE!
+    types: NexusGenScalars['JSON']; // JSON!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   PieceEntity: { // field return type
@@ -1378,7 +1377,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     price: 'ComponentPiecePrice'
     publishedAt: 'DateTime'
-    type: 'ENUM_PIECE_TYPE'
+    types: 'JSON'
     updatedAt: 'DateTime'
   }
   PieceEntity: { // field return type name

@@ -304,15 +304,6 @@ enum ENUM_CONTENTRELEASESRELEASEACTION_TYPE {
   unpublish
 }
 
-enum ENUM_PIECE_TYPE {
-  bracelet
-  brooch
-  earring
-  necklace
-  other
-  ring
-}
-
 type Error {
   code: String!
   message: String
@@ -630,7 +621,7 @@ type Piece {
   name: String!
   price: ComponentPiecePrice
   publishedAt: DateTime
-  type: ENUM_PIECE_TYPE!
+  types: JSON!
   updatedAt: DateTime
 }
 
@@ -659,7 +650,7 @@ input PieceFiltersInput {
   or: [PieceFiltersInput]
   price: ComponentPiecePriceFiltersInput
   publishedAt: DateTimeFilterInput
-  type: StringFilterInput
+  types: JSONFilterInput
   updatedAt: DateTimeFilterInput
 }
 
@@ -670,7 +661,7 @@ input PieceInput {
   name: String
   price: ComponentPiecePriceInput
   publishedAt: DateTime
-  type: ENUM_PIECE_TYPE
+  types: JSON
 }
 
 type PieceRelationResponseCollection {

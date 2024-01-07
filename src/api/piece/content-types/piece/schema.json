@@ -65,22 +65,18 @@
       "target": "api::collection.collection",
       "inversedBy": "pieces"
     },
-    "type": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
+    "types": {
+      "type": "customField",
+      "options": [
         "ring",
-        "earring",
+        "earrings",
         "brooch",
         "necklace",
         "bracelet",
         "other"
       ],
-      "required": true
+      "required": true,
+      "customField": "plugin::multi-select.multi-select"
     }
   }
 }

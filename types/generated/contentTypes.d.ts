@@ -881,15 +881,12 @@ export interface ApiPiecePiece extends Schema.CollectionType {
       'manyToOne',
       'api::collection.collection'
     >;
-    type: Attribute.Enumeration<
-      ['ring', 'earring', 'brooch', 'necklace', 'bracelet', 'other']
-    > &
+    types: Attribute.JSON &
       Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
+      Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        ['ring', 'earrings', 'brooch', 'necklace', 'bracelet', 'other']
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
