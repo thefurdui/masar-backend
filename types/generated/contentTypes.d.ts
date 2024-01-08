@@ -885,7 +885,16 @@ export interface ApiPiecePiece extends Schema.CollectionType {
       Attribute.Required &
       Attribute.CustomField<
         'plugin::multi-select.multi-select',
-        ['ring', 'earrings', 'brooch', 'necklace', 'bracelet', 'other']
+        [
+          'ring',
+          'earrings',
+          'necklace',
+          'bracelet',
+          'brooch',
+          'pendant',
+          'cufflinks',
+          'other'
+        ]
       >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

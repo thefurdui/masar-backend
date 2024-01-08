@@ -70,9 +70,11 @@
       "options": [
         "ring",
         "earrings",
-        "brooch",
         "necklace",
         "bracelet",
+        "brooch",
+        "pendant",
+        "cufflinks",
         "other"
       ],
       "required": true,
